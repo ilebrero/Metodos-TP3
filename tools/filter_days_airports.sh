@@ -1,7 +1,6 @@
 #!/bin/bash
 # Filtrar por par origen - destino usando awk.
 
-
 # Definimos algunas variables. Ojo que a bash no le gustan los espacios cerca del "=".
 
 # ------------------ Ocio ------------------- #
@@ -11,7 +10,6 @@ airport_mco="MCO" #orlando
 # ----------------- Trabajo ----------------- #
 airport_iad="IAD" #washington 
 airport_sfo="SFO" #san francisco
-
 
 for i in `seq 5 8`;
 do
@@ -23,24 +21,19 @@ do
 	 #Columna 18 ID aeropuerto
 	 #Ojo con la secuencia de " y ' al filtrar por &&. 
 
-	awk -F, '$18 == "'"$airport_mco"'"' $infile > $outfile_orlando
-	awk -F, '$18 == "'"$airport_hawai"'"' $infile > $outfile_hawai
-	awk -F, '$18 == "'"$airport_iad"'"' $infile > $outfile_washington
-	awk -F, '$18 == "'"$airport_sfo"'"' $infile > $outfile_san_francico
+	./filtrar_fila.sh 18 $airport_mco $infile $outfile_orlando
+	./filtrar_fila.sh 18 $airport_hawai $infile $outfile_hawai
+	./filtrar_fila.sh 18 $airport_iad $infile $outfile_washington
+	./filtrar_fila.sh 18 $airport_sfo $infile $outfile_san_francico
 done
 
- #Filtrar columnas fecha, aerolinea, nro. de vuelo 
+#Filtrar columnas fecha, aerolinea, nro. de vuelo 
 
 for i in `seq 5 8`;
 do
     infile="../data/Filtrados/washington_200"$i"_data.csv"
 	outfile="../data/Filtrados/resultados/washington_200"$i"_por_mes.csv"
 
-	# -f indica que columnas, "-d," significa "delimitador es una ','".
-	cut -f2 -d, $infile > $outfile
-
-	for j in `seq 1 12`;
-		do
-			grep -c $j $(find $outfile -type f -print0 | xargs -0 echo) >> "../data/Filtrados/resultados/vuelosXmeswashington200"$i
-		done
-done 
+	./tomar_columna.sh 2 $infile $outfile
+	./count_in_range.sh 1 12 $outfile "../data/Filtrados/resultados/vuelosXmeswashington200"$i
+done
