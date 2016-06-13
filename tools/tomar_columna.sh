@@ -10,4 +10,5 @@
 ###############
 
 # -f indica que columnas, "-d," significa "delimitador es una ','".
+echo "tomando columna "$1
 cut -f$1 -d, $2 > $3
