@@ -30,11 +30,20 @@ for f in files:
         if line_aux[16] == airport or line_aux[17] == airport:
           file_out.write(line)
 
+
+directory = './' + airport + '/'
+files = [f for f in listfiles(directory,'*.csv')]
+files.sort()
+
+print files
+
 for f in files:
 
+  print f
   with open(f, 'r') as file_data:
 
-    file_org = (airport + '/' + airport + 'org' + '/' + airport + f[2:]) 
+    file_org = (airport + '/' + airport + 'org' + '/' + airport + f[9:]) 
+    print file_org
 
     with open(file_org, 'w') as file_out:
       for line in file_data:
@@ -47,7 +56,7 @@ for f in files:
 
   with open(f, 'r') as file_data:
 
-    file_dest = (airport + '/' + airport + 'dest' + '/' + airport + f[2:])
+    file_dest = (airport + '/' + airport + 'dest' + '/' + airport + f[9:])
 
     with open(file_dest, 'w') as file_out:
       for line in file_data:
