@@ -15,10 +15,9 @@ os.makedirs(airport + '/' + airport + 'dest')
 files = [f for f in listfiles('./','*.csv')]
 files.sort()
 
-print files
-
 for f in files:
 
+  print "termine" + f[2:]
   with open(f, 'r') as file_data:
 
     file_both = (airport + '/' + airport + f[2:])
@@ -35,15 +34,12 @@ directory = './' + airport + '/'
 files = [f for f in listfiles(directory,'*.csv')]
 files.sort()
 
-print files
-
 for f in files:
 
-  print f
+  print "termine" + f[9:]
   with open(f, 'r') as file_data:
 
     file_org = (airport + '/' + airport + 'org' + '/' + airport + f[9:]) 
-    print file_org
 
     with open(file_org, 'w') as file_out:
       for line in file_data:
@@ -54,6 +50,7 @@ for f in files:
 
 for f in files:
 
+  print "termine" + f[9:]
   with open(f, 'r') as file_data:
 
     file_dest = (airport + '/' + airport + 'dest' + '/' + airport + f[9:])

@@ -7,17 +7,22 @@ from math import log
 from graficaciones.graficar_mes_cancelaciones import graficarMesCancelaciones
 from graficaciones.graficar_semana_cancelaciones import graficarSemanaCancelaciones
 from graficaciones.graficar_mes_delay import graficarMesDelay
-#from graficaciones.graficar_semana_delay import graficarSemanaDelay
+from graficaciones.graficar_mes_delay2 import graficarMesDelay2
+from graficaciones.graficar_semana_delay import graficarSemanaDelay
 import os
 
-def main():
+def menu(airport_1, airport_2 = None):
 
-# Instancio los arreglos para los datos
-  airport = raw_input("¿Nombre del aeropuerto? ")
-  #directory = raw_input("Carpeta con datos: ")
-  directory = airport
+  directory_1 = airport_1
+  directory_2 = airport_2
+
+  directory_both = ''
+  if airport_2 != None:
+    directory_both = airport_1 + '_' + airport_2
+    if not os.path.exists(directory_both):
+      os.mkdir(directory_both)
+
   os.system('cls' if os.name == 'nt' else 'clear')
-  
   print "¿Qué dato querés graficar? "
   #print "13: Tiempo de vuelo " 
   print "14: Delay de llegada "
@@ -29,9 +34,12 @@ def main():
   os.system('cls' if os.name == 'nt' else 'clear')
 
   if data == 14:
-    directory += '/' + airport + 'dest'
+    directory_1 += '/' + airport_1 + 'dest'
+    directory_2 += '/' + airport_2 + 'dest'
   elif data == 15:
-    directory += '/' + airport + 'org'
+    directory_1 += '/' + airport_1 + 'org'
+    directory_2 += '/' + airport_2 + 'org'
+
 
   print "¿Querés filtrar por alguno de los siguientes?: "
   print "24: Carrier delay " 
@@ -64,18 +72,38 @@ def main():
       cancelation_code = 'D'
 
     if granularity == 0:
-      graficarMesCancelaciones(directory, airport, cancelation_code)
+      graficarMesCancelaciones(directory_1, airport_1, cancelation_code)
     elif granularity == 1:
-      graficarSemanaCancelaciones(directory, airport, cancelation_code)
+      graficarSemanaCancelaciones(directory_1, airport_1, cancelation_code)
 
   elif data == 14 or data == 15 or data == 16: # Delay de salida
 
     if granularity == 0:
-      print "entre bien"
-      graficarMesDelay(directory, airport, delay_filter, data)
+      if airport_2 == None:
+        graficarMesDelay(directory_1, airport_1, delay_filter, data)
+      else:
+        graficarMesDelay2(directory_1, directory_2, directory_both, airport_1, airport_2, delay_filter, data)
+
+
     elif granularity == 1:
-      print "hola"
-  #    graficarSemanaCancelaciones(directory, airport, delay_filter)
+      print "entre bien"
+      graficarSemanaDelay(directory, airport_1, delay_filter, data)
+
+def main():
+
+# Instancio los arreglos para los datos
+  opcion = raw_input("¿Querés comparar entre aeropuertos? (y/n) ")
+  if opcion == 'y':
+    print "Ingresa los aeropuertos: "
+    airport_1 = raw_input("Primer aeropuerto: ")
+    airport_2 = raw_input("Segundo aeropuerto: ")
+    menu(airport_1, airport_2)
+
+  else:
+    airport = raw_input("¿Nombre del aeropuerto? ")
+    menu(airport, None)
+    #directory = raw_input("Carpeta con datos: ")
+    
 
 if __name__ == "__main__":
   main()
