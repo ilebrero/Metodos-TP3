@@ -9,6 +9,7 @@ from graficaciones.graficar_semana_cancelaciones import graficarSemanaCancelacio
 from graficaciones.graficar_mes_delay import graficarMesDelay
 from graficaciones.graficar_mes_delay2 import graficarMesDelay2
 from graficaciones.graficar_semana_delay import graficarSemanaDelay
+from graficaciones.graficar_semana_delay2 import graficarSemanaDelay2
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -35,10 +36,12 @@ def menu(airport_1, airport_2 = None):
 
   if data == 14:
     directory_1 += '/' + airport_1 + 'dest'
-    directory_2 += '/' + airport_2 + 'dest'
+    if airport_2 != None:
+      directory_2 += '/' + airport_2 + 'dest'
   elif data == 15:
     directory_1 += '/' + airport_1 + 'org'
-    directory_2 += '/' + airport_2 + 'org'
+    if airport_2 != None:
+      directory_2 += '/' + airport_2 + 'org'
 
 
   print "¿Querés filtrar por alguno de los siguientes?: "
@@ -84,10 +87,11 @@ def menu(airport_1, airport_2 = None):
       else:
         graficarMesDelay2(directory_1, directory_2, directory_both, airport_1, airport_2, delay_filter, data)
 
-
     elif granularity == 1:
-      print "entre bien"
-      graficarSemanaDelay(directory, airport_1, delay_filter, data)
+      if airport_2 == None:
+        graficarSemanaDelay(directory_1, airport_1, delay_filter, data)
+      else:
+        graficarSemanaDelay2(directory_1, directory_2, directory_both, airport_1, airport_2, delay_filter, data)
 
 def main():
 

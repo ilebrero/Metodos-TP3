@@ -4,6 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from math import log
+import os
 
 def readFile(File, data_1, data_2, data_3, data_4, delay_filter, data, airport):
 
@@ -192,7 +193,7 @@ def graficarSemanaDelay(directory, airport, delay_filter, data):
 
   plt.xlabel(u"Semanas")
   plt.ylabel(u"Cantidad de delays")
-  plt.xticks([24+12*i*4 for i in range(0,11)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
+  plt.xticks([24+12*i*4 for i in range(0,years)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   plt.legend()
   plt.savefig(directory + '/graficos/grafico_cantidad_delay_semana')
   plt.show()
@@ -208,12 +209,12 @@ def graficarSemanaDelay(directory, airport, delay_filter, data):
 
   plt.xlabel(u"Semanas")
   plt.ylabel(u"Delays")
-  plt.xticks([24+12*i*4 for i in range(0,11)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
+  plt.xticks([24+12*i*4 for i in range(0,years)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   plt.legend()
   plt.savefig(directory + '/graficos/grafico_delay_semana')
   plt.show()
 
-  if delay_filter != '':
+  if delay_filter != 0:
     lab = ''
     lab_f = ''
     fig = ''
