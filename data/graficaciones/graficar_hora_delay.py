@@ -85,17 +85,17 @@ def graficarDiaDelay(directory, airport, data):
   año_2007 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
   año_2008 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
 
-  filtro_año_1998 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]  
-  filtro_año_1999 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2000 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2001 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2002 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2003 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2004 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2005 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2006 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2007 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
-  filtro_año_2008 = [[[0, [0 for z in range(0, 24)], 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_1998 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]  
+  filtro_año_1999 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2000 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2001 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2002 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2003 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2004 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2005 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2006 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2007 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+  filtro_año_2008 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
 
   file_out = directory + '/' + airport
   print file_out
@@ -112,6 +112,8 @@ def graficarDiaDelay(directory, airport, data):
   readFile(file_out + '2007.csv', año_2007, filtro_año_2007, data)
   readFile(file_out + '2008.csv', año_2008, filtro_año_2008, data)
 
+  years = 11
+
   x_lunes     = [] 
   x_martes    = [] 
   x_miercoles = []   
@@ -120,48 +122,59 @@ def graficarDiaDelay(directory, airport, data):
   x_sabado    = [] 
   x_domingo   = [] 
 
-  lunes_2005     = [] 
-  martes_2005    = [] 
-  miercoles_2005 = []   
-  jueves_2005    = [] 
-  viernes_2005   = [] 
-  sabado_2005    = [] 
-  domingo_2005   = [] 
+  # Instancio una lista vacia por cada mes de cada año
+  # De este manera tengo en cada arreglo el promedio de cada día
+  
+  lunes     = [[ [] for j in range(0, 12)] for i in range(0, years)] 
+  martes    = [[ [] for j in range(0, 12)] for i in range(0, years)] 
+  miercoles = [[ [] for j in range(0, 12)] for i in range(0, years)]   
+  jueves    = [[ [] for j in range(0, 12)] for i in range(0, years)] 
+  viernes   = [[ [] for j in range(0, 12)] for i in range(0, years)] 
+  sabado    = [[ [] for j in range(0, 12)] for i in range(0, years)] 
+  domingo   = [[ [] for j in range(0, 12)] for i in range(0, years)] 
 
   #print anio_2005
 
-  for i in range(0, 12):
-    mes = año_2005[i]
-    for day in mes:
-      data = day[0]
-      
-      if day[1] == 1:
-        lunes_2005.append(data)
-        x_lunes.append(day[2]+31*i)
+  años = año_1998 + año_1999 + año_2000 + año_2001 + año_2002 + año_2003 + año_2004 + año_2005 + año_2006 + año_2007 + año_2008
 
-      elif day[1] == 2:
-        martes_2005.append(data)
-        x_martes.append(day[2]+31*i)
+  filtro_años = filtro_año_1998 + filtro_año_1999 + filtro_año_2000 + filtro_año_2001 + filtro_año_2002 + filtro_año_2003 + filtro_año_2004 + filtro_año_2005 + filtro_año_2006 + filtro_año_2007 + filtro_año_2008
 
-      elif day[1] == 3:
-        miercoles_2005.append(data)
-        x_miercoles.append(day[2]+31*i)
+  filtro_año_2003 = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
 
-      elif day[1] == 4:
-        jueves_2005.append(data)
-        x_jueves.append(day[2]+31*i)
+  for i in range(0, years):
+    año = año[i]
+    for j in range(0, 12):
+      mes = año[j]
+      for day in mes:
+        data = day[0]
+        
+        if day[2] == 1:
+          lunes.append(data)
+          x_lunes.append(day[2]+31*i)
 
-      elif day[1] == 5:
-        viernes_2005.append(data)
-        x_viernes.append(day[2]+31*i)
+        elif day[2] == 2:
+          martes.append(data)
+          x_martes.append(day[2]+31*i)
 
-      elif day[1] == 6:
-        sabado_2005.append(data)
-        x_sabado.append(day[2]+31*i)
+        elif day[2] == 3:
+          miercoles.append(data)
+          x_miercoles.append(day[2]+31*i)
 
-      elif day[1] == 7:
-        domingo_2005.append(data)
-        x_domingo.append(day[2]+31*i)
+        elif day[2] == 4:
+          jueves.append(data)
+          x_jueves.append(day[2]+31*i)
+
+        elif day[2] == 5:
+          viernes.append(data)
+          x_viernes.append(day[2]+31*i)
+
+        elif day[2] == 6:
+          sabado.append(data)
+          x_sabado.append(day[2]+31*i)
+
+        elif day[2] == 7:
+          domingo.append(data)
+          x_domingo.append(day[2]+31*i)
 
   if not os.path.exists(directory + '/graficos'):
     os.mkdir(directory + '/graficos')
