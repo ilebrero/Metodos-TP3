@@ -101,12 +101,12 @@ def graficarHoraDelay(directory, airport, delay_filter, data):
   print file_out
 
   readFile(file_out + '1998.csv', anio_1998, filtro_anio_1998, data, delay_filter)
-  readFile(file_out + '1999.csv', anio_1998, filtro_anio_1999, data, delay_filter)
-  readFile(file_out + '2000.csv', anio_1998, filtro_anio_2000, data, delay_filter)
-  readFile(file_out + '2001.csv', anio_1998, filtro_anio_2001, data, delay_filter)
-  readFile(file_out + '2002.csv', anio_1998, filtro_anio_2002, data, delay_filter)
-  readFile(file_out + '2003.csv', anio_1998, filtro_anio_2003, data, delay_filter)
-  readFile(file_out + '2004.csv', anio_1998, filtro_anio_2004, data, delay_filter)
+  readFile(file_out + '1999.csv', anio_1999, filtro_anio_1999, data, delay_filter)
+  readFile(file_out + '2000.csv', anio_2000, filtro_anio_2000, data, delay_filter)
+  readFile(file_out + '2001.csv', anio_2001, filtro_anio_2001, data, delay_filter)
+  readFile(file_out + '2002.csv', anio_2002, filtro_anio_2002, data, delay_filter)
+  readFile(file_out + '2003.csv', anio_2003, filtro_anio_2003, data, delay_filter)
+  readFile(file_out + '2004.csv', anio_2004, filtro_anio_2004, data, delay_filter)
   readFile(file_out + '2005.csv', anio_2005, filtro_anio_2005, data, delay_filter)
   readFile(file_out + '2006.csv', anio_2006, filtro_anio_2006, data, delay_filter)
   readFile(file_out + '2007.csv', anio_2007, filtro_anio_2007, data, delay_filter)
@@ -117,21 +117,21 @@ def graficarHoraDelay(directory, airport, delay_filter, data):
   # Instancio una lista vacia por cada mes de cada anio
   # Por cada mes quiero tener la cantidad de datos y los datos por dia 
   
-  lunes     = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  martes    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  miercoles = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)]   
-  jueves    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  viernes   = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  sabado    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  domingo   = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
+  lunes     = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  martes    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  miercoles = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)]   
+  jueves    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  viernes   = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  sabado    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  domingo   = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
 
-  filtro_lunes     = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  filtro_martes    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  filtro_miercoles = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)]   
-  filtro_jueves    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  filtro_viernes   = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  filtro_sabado    = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
-  filtro_domingo   = [[ [ [], [] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_lunes     = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_martes    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_miercoles = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)]   
+  filtro_jueves    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_viernes   = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_sabado    = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
+  filtro_domingo   = [[ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)] for i in range(0, years)] 
 
   #print anio_2005
 
@@ -151,8 +151,6 @@ def graficarHoraDelay(directory, airport, delay_filter, data):
   # El promedio de cada hora por mes dentro de un anio. 
   # 24*7 valores por anio. Total de valores = 168
   # Tengo que sumar todos los dias con sus respectivos
-
-  [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
 
   for i in range(0, years):
     anio = anios[i]
@@ -233,55 +231,67 @@ def graficarHoraDelay(directory, airport, delay_filter, data):
   x_sabado    = [i for i in range(120, 144)] 
   x_domingo   = [i for i in range(144, 168)] 
 
+  print lunes[0][0][0]
+
   opacity = 0.4
 
-  years=12
-# Debería haber cantidad de anios-1 
-  for i in range(0, 7):
-    plt.axvline(x=24*i, linewidth=2, color='k')
+  years=11
 
-  for i in range(0, 3):
-    plt.plot(x_lunes, lunes[4][i][0], 'ro', 
-             alpha=opacity,
-             color='b',
-             label=u"Lunes")
+  for i in range(4, years):
 
-    plt.plot(x_martes, martes[4][i][0], 'ro', 
-             alpha=opacity,
-             color='g',
-             label=u"Martes")
+    for j in range(0, 12):
 
-    plt.plot(x_miercoles, miercoles[4][i][0], 'ro', 
-             alpha=opacity,
-             color='r',
-             label=u"Miercoles")
+      for k in range(0, 7):
+        plt.axvline(x=24*k, linewidth=2, color='k')
 
-    plt.plot(x_jueves, jueves[4][i][0], 'ro', 
-             alpha=opacity,
-             color='c',
-             label=u"Jueves")
+      plt.plot(x_lunes, lunes[i][j][0], 'ro', 
+               alpha=opacity,
+               color='b',
+               linestyle='-',
+               label=u"Lunes")
 
-    plt.plot(x_viernes, viernes[4][i][0], 'ro', 
-             alpha=opacity,
-             color='m',
-             label=u"Viernes")
+      plt.plot(x_martes, martes[i][j][0], 'ro', 
+               alpha=opacity,
+               color='g',
+               linestyle='-',
+               label=u"Martes")
 
-    plt.plot(x_sabado, sabado[4][i][0], 'ro', 
-             alpha=opacity,
-             color='y',
-             label=u"Sabado")
+      plt.plot(x_miercoles, miercoles[i][j][0], 'ro', 
+               alpha=opacity,
+               color='r',
+               linestyle='-',
+               label=u"Miercoles")
 
-    plt.plot(x_domingo, domingo[4][i][0], 'ro', 
-             alpha=opacity,
-             color='k',
-             label=u"Domingo")
+      plt.plot(x_jueves, jueves[i][j][0], 'ro', 
+               alpha=opacity,
+               color='c',
+               linestyle='-',
+               label=u"Jueves")
 
-    plt.xlabel(u"dias")
-    plt.ylabel(u"Cantidad de delays")
-    plt.xticks([12+24*j for j in range(0,7)],['Lun', 'mar', 'mier', 'juev', 'vier', 'sab', 'dom'],fontsize=10)
-    plt.legend()
-    plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
-    plt.show()
+      plt.plot(x_viernes, viernes[i][j][0], 'ro', 
+               alpha=opacity,
+               color='m',
+               linestyle='-',
+               label=u"Viernes")
+
+      plt.plot(x_sabado, sabado[i][j][0], 'ro', 
+               alpha=opacity,
+               color='y',
+               linestyle='-',
+               label=u"Sabado")
+
+      plt.plot(x_domingo, domingo[i][j][0], 'ro', 
+               alpha=opacity,
+               color='k',
+               linestyle='-',
+               label=u"Domingo")
+
+      plt.xlabel(u"dias")
+      plt.ylabel(u"Cantidad de delays")
+      plt.xticks([12+24*j for j in range(0,7)],['Lun', 'mar', 'mier', 'juev', 'vier', 'sab', 'dom'],fontsize=10)
+      plt.legend()
+      plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
+      plt.show()
 
 if __name__ == "__main__":
   main()
