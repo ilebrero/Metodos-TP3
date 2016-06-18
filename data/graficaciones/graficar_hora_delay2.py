@@ -120,154 +120,160 @@ def readFile(File, anio, filtro_anio, data, d_filter):
 #data = la información que se quiere obtener
 
 def graficarHoraDelay2(directory, airport, an, delay_filter, data):
-
-# Instancio los arreglos para los datos
-
-  anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
-
-  filtro_anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
-
-  file_out = directory + '/' + airport + an + '.csv'
-  print file_out
-
-  readFile(file_out, anio, filtro_anio, data, delay_filter)
-
-  # Instancio una lista vacia por cada mes de cada anio
-  # Por cada mes quiero tener la cantidad de datos y los datos por dia 
-  # lunes[mes][0] = Cantidad de delays por dia (por hora) 
-  # lunes[mes][1] = Sumatoria de delays por dia (por hora) 
   
-  lunes     = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  martes    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  miercoles = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  jueves    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  viernes   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  sabado    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  domingo   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-
-  # Esto debería ser por la cantidad de lunes del mes. ESTO ahora esta haciendolo por hora (creo)
-  cant_lunes     = [0 for i in range(0, 12)] 
-  cant_martes    = [0 for i in range(0, 12)] 
-  cant_miercoles = [0 for i in range(0, 12)]   
-  cant_jueves    = [0 for i in range(0, 12)] 
-  cant_viernes   = [0 for i in range(0, 12)] 
-  cant_sabado    = [0 for i in range(0, 12)] 
-  cant_domingo   = [0 for i in range(0, 12)] 
-
-  filtro_lunes     = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  filtro_martes    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  filtro_miercoles = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]  
-  filtro_jueves    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  filtro_viernes   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  filtro_sabado    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-  filtro_domingo   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
-
-  # Por cada mes
-  for i in range(0, 12):
-    mes = anio[i]
-    filtro_mes = filtro_anio[i]
-    # Por cada dia del mes
-    for j in range(0, 31):
-      day = mes[j]
-      filtro_day = filtro_mes[j]
-      
-      #acumulo la cantidad de días del mes según día 
-      if day[2] == 1:
-        cant_lunes[i] += 1
-      elif day[2] == 2:
-        cant_martes[i] += 1
-      elif day[2] == 3:
-        cant_miercoles[i] += 1
-      elif day[2] == 4:
-        cant_jueves[i] += 1
-      elif day[2] == 5:
-        cant_viernes[i] += 1
-      elif day[2] == 6:
-        cant_sabado[i] += 1
-      elif day[2] == 7:
-        cant_domingo[i] += 1
-
-      # Por cada hora
-      for k in range(0, 24):
-
-        # Levanto la acumulada en la hora (dia y mes ya están fijos)
-        cant_datos = day[0][k]
-        datos = day[1][k]
-
-        filtro_cant_datos = filtro_day[0][k]
-        filtro_datos = filtro_day[1][k]
+# Instancio los arreglos para los datos, del 2005 al 2008
+  primer_anio = 5
+  ultimo_anio = 8
         
-        # Dependiendo del día de semana(lun-dom) acumulo los datos
-        # Ejemplo: Al lunes del mes i, en la hora k le acumulo los datos
-        # Promedio de todos los lunes del mes
+  anio_lunes = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_martes= [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_miercoles = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_jueves = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_viernes = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_sabado = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_domingo = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+
+  for l in range(primer_anio, ultimo_anio + 1):
+
+    filtro_anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+    anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+
+    file_out = directory + '/' + airport + "200"+ str(l) + '.csv'
+    print file_out
+
+    readFile(file_out, anio, filtro_anio, data, delay_filter)
+
+    # Instancio una lista vacia por cada mes de cada anio
+    # Por cada mes quiero tener la cantidad de datos y los datos por dia 
+    # lunes[mes][0] = Cantidad de delays por dia (por hora) 
+    # lunes[mes][1] = Sumatoria de delays por dia (por hora) 
+    
+    lunes     = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    martes    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    miercoles = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    jueves    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    viernes   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    sabado    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    domingo   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+
+    # Esto debería ser por la cantidad de lunes del mes. ESTO ahora esta haciendolo por hora (creo)
+    cant_lunes     = [0 for i in range(0, 12)] 
+    cant_martes    = [0 for i in range(0, 12)] 
+    cant_miercoles = [0 for i in range(0, 12)]   
+    cant_jueves    = [0 for i in range(0, 12)] 
+    cant_viernes   = [0 for i in range(0, 12)] 
+    cant_sabado    = [0 for i in range(0, 12)] 
+    cant_domingo   = [0 for i in range(0, 12)] 
+
+    filtro_lunes     = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    filtro_martes    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    filtro_miercoles = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]  
+    filtro_jueves    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    filtro_viernes   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    filtro_sabado    = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+    filtro_domingo   = [ [ [0 for z in range(0, 24)], [0 for k in range(0, 24)] ] for j in range(0, 12)]
+
+    # Por cada mes
+    for i in range(0, 12):
+      mes = anio[i]
+      filtro_mes = filtro_anio[i]
+      # Por cada dia del mes
+      for j in range(0, 31):
+        day = mes[j]
+        filtro_day = filtro_mes[j]
+        
+        #acumulo la cantidad de días en un mes que son lu-ma-mi-ju-vi-sa-do 
         if day[2] == 1:
-          lunes[i][0][k] += cant_datos      # Le meto en la primer posicion la cantidad de datos
-          lunes[i][1][k] += datos           # Le meto en la segunda posicion la suma de los daots
-          filtro_lunes[i][0][k] += filtro_cant_datos
-          filtro_lunes[i][1][k] += filtro_datos
-
+          cant_lunes[i] += 1
         elif day[2] == 2:
-          martes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          martes[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_martes[i][0][k] += filtro_cant_datos
-          filtro_martes[i][1][k] += filtro_datos
-
+          cant_martes[i] += 1
         elif day[2] == 3:
-          miercoles[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          miercoles[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_miercoles[i][0][k] += filtro_cant_datos
-          filtro_miercoles[i][1][k] += filtro_datos
-
+          cant_miercoles[i] += 1
         elif day[2] == 4:
-          jueves[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          jueves[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_jueves[i][0][k] += filtro_cant_datos
-          filtro_jueves[i][1][k] += filtro_datos
-
+          cant_jueves[i] += 1
         elif day[2] == 5:
-          viernes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          viernes[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_viernes[i][0][k] += filtro_cant_datos
-          filtro_viernes[i][1][k] += filtro_datos
-
+          cant_viernes[i] += 1
         elif day[2] == 6:
-          sabado[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          sabado[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_sabado[i][0][k] += filtro_cant_datos
-          filtro_sabado[i][1][k] += filtro_datos
-
+          cant_sabado[i] += 1
         elif day[2] == 7:
-          domingo[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
-          domingo[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
-          filtro_domingo[i][0][k] += filtro_cant_datos
-          filtro_domingo[i][1][k] += filtro_datos
+          cant_domingo[i] += 1
 
-  print "tu vie"
-  print cant_lunes
-  print "tu vie"
-  print cant_martes
-  print "tu vie"
-  print cant_miercoles
-  print "tu vie"
-  print cant_jueves
-  print "tu vie"
-  print cant_viernes
-  print "tu vie"
-  print cant_sabado
-  print "tu vie"
-  print cant_domingo
+        # Por cada hora
+        for k in range(0, 24):
 
-#print "printeando"
-# print lunes[0]
+          # Levanto la acumulada en la hora (dia y mes ya están fijos)
+          cant_datos = day[0][k]
+          datos = day[1][k]
 
-  # Sacar el promedio por mes
-  func(lunes, filtro_lunes, cant_lunes)
-  func(martes, filtro_martes, cant_martes)
-  func(miercoles, filtro_miercoles, cant_miercoles)
-  func(jueves, filtro_jueves, cant_jueves)
-  func(viernes, filtro_viernes, cant_viernes)
-  func(sabado, filtro_sabado, cant_sabado)
-  func(domingo, filtro_domingo, cant_domingo)
+          filtro_cant_datos = filtro_day[0][k]
+          filtro_datos = filtro_day[1][k]
+          
+          # Dependiendo del día de semana(lun-dom) acumulo los datos
+          # Ejemplo: Al lunes del mes i, en la hora k le acumulo los datos
+          # Promedio de todos los lunes del mes
+          if day[2] == 1:
+            lunes[i][0][k] += cant_datos      # Le meto en la primer posicion la cantidad de datos
+            lunes[i][1][k] += datos           # Le meto en la segunda posicion la suma de los daots
+            filtro_lunes[i][0][k] += filtro_cant_datos
+            filtro_lunes[i][1][k] += filtro_datos
+
+          elif day[2] == 2:
+            martes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            martes[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_martes[i][0][k] += filtro_cant_datos
+            filtro_martes[i][1][k] += filtro_datos
+
+          elif day[2] == 3:
+            miercoles[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            miercoles[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_miercoles[i][0][k] += filtro_cant_datos
+            filtro_miercoles[i][1][k] += filtro_datos
+
+          elif day[2] == 4:
+            jueves[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            jueves[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_jueves[i][0][k] += filtro_cant_datos
+            filtro_jueves[i][1][k] += filtro_datos
+
+          elif day[2] == 5:
+            viernes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            viernes[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_viernes[i][0][k] += filtro_cant_datos
+            filtro_viernes[i][1][k] += filtro_datos
+
+          elif day[2] == 6:
+            sabado[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            sabado[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_sabado[i][0][k] += filtro_cant_datos
+            filtro_sabado[i][1][k] += filtro_datos
+
+          elif day[2] == 7:
+            domingo[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
+            domingo[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
+            filtro_domingo[i][0][k] += filtro_cant_datos
+            filtro_domingo[i][1][k] += filtro_datos
+
+    # Sacar el promedio por mes
+    func(lunes, filtro_lunes, cant_lunes)
+    func(martes, filtro_martes, cant_martes)
+    func(miercoles, filtro_miercoles, cant_miercoles)
+    func(jueves, filtro_jueves, cant_jueves)
+    func(viernes, filtro_viernes, cant_viernes)
+    func(sabado, filtro_sabado, cant_sabado)
+    func(domingo, filtro_domingo, cant_domingo)
+
+    anio_lunes[l - primer_anio] = lunes
+    anio_martes[l - primer_anio] = martes
+    anio_miercoles[l - primer_anio] = miercoles
+    anio_jueves[l - primer_anio] = jueves
+    anio_viernes[l - primer_anio] = viernes
+    anio_sabado[l - primer_anio] = sabado
+    anio_domingo[l - primer_anio] = domingo
+
+    if anio_lunes[l - primer_anio] == lunes:
+      print "todo ok para el " + str(l)
+    else:
+      print "todo mal para el " + str(l)
 
 
   # El promedio de cada hora por anio.
@@ -280,74 +286,80 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
 
   # lunes[mes][0][hora] Tengo la acumulada de cantidad de delays por mes
   # lunes[mes][1][hora] Tengo la acumulada de delays por mes
-
-  x_lunes     = [i for i in range(0, 24)] 
-  x_martes    = [i for i in range(24, 48)] 
-  x_miercoles = [i for i in range(48, 72)]   
-  x_jueves    = [i for i in range(72, 96)] 
-  x_viernes   = [i for i in range(96, 120)] 
-  x_sabado    = [i for i in range(120, 144)] 
-  x_domingo   = [i for i in range(144, 168)] 
-
-#print lunes[0][0][0]
+  aux = 0
+  eje_x = {}
+  for s in range(0, ultimo_anio - primer_anio + 1):
+    eje_x['x_lunes_' + str(s)] = [i for i in range(aux, aux+24)]
+    aux +=24
+    eje_x['x_martes_' + str(s)] = [i for i in range(aux, aux+24)]
+    aux +=24
+    eje_x['x_miercoles_' + str(s)] = [i for i in range(aux, aux+24)]
+    aux +=24
+    eje_x['x_jueves_' + str(s)] = [i for i in range(aux, aux+24)]    
+    aux +=24
+    eje_x['x_viernes_' + str(s)] =[i for i in range(aux, aux+24)]   
+    aux +=24
+    eje_x['x_sabado_' + str(s)] = [i for i in range(aux, aux+24)]  
+    aux +=24
+    eje_x['x_domingo_' + str(s)] =[i for i in range(aux, aux+24)]  
 
   opacity = 0.4
 
-  years=11
+  for s in range(0, ultimo_anio - primer_anio + 1):
 
-  for j in range(0, 12):
+    for j in range(0, 12):
 
-    for k in range(0, 7):
-      plt.axvline(x=24*k, linewidth=2, color='k')
+      for k in range(0, 7):
+        plt.axvline(x=24*k, linewidth=2, color='k')
 
-    plt.plot(x_lunes, lunes[j][0], 'ro', 
-             alpha=opacity,
-             color='b',
-             linestyle='-',
-             label=u"Lunes")
+      plt.plot(eje_x['x_lunes_' + str(s)], anio_lunes[s][j][0], 'ro', 
+               alpha=opacity,
+               color='b',
+               linestyle='-',
+               label=u"Lunes")
 
-    plt.plot(x_martes, martes[j][0], 'ro', 
-             alpha=opacity,
-             color='g',
-             linestyle='-',
-             label=u"Martes")
+      plt.plot(eje_x['x_martes_' + str(s)], anio_martes[s][j][0], 'ro', 
+               alpha=opacity,
+               color='g',
+               linestyle='-',
+               label=u"Martes")
 
-    plt.plot(x_miercoles, miercoles[j][0], 'ro', 
-             alpha=opacity,
-             color='r',
-             linestyle='-',
-             label=u"Miercoles")
+      plt.plot(eje_x['x_miercoles_' + str(s)], anio_miercoles[s][j][0], 'ro', 
+               alpha=opacity,
+               color='r',
+               linestyle='-',
+               label=u"Miercoles")
 
-    plt.plot(x_jueves, jueves[j][0], 'ro', 
-             alpha=opacity,
-             color='c',
-             linestyle='-',
-             label=u"Jueves")
+      plt.plot(eje_x['x_jueves_' + str(s)], anio_jueves[s][j][0], 'ro', 
+               alpha=opacity,
+               color='c',
+               linestyle='-',
+               label=u"Jueves")
 
-    plt.plot(x_viernes, viernes[j][0], 'ro', 
-             alpha=opacity,
-             color='m',
-             linestyle='-',
-             label=u"Viernes")
+      plt.plot(eje_x['x_viernes_' + str(s)], anio_viernes[s][j][0], 'ro', 
+               alpha=opacity,
+               color='m',
+               linestyle='-',
+               label=u"Viernes")
 
-    plt.plot(x_sabado, sabado[j][0], 'ro', 
-             alpha=opacity,
-             color='y',
-             linestyle='-',
-             label=u"Sabado")
+      plt.plot(eje_x['x_sabado_' + str(s)], anio_sabado[s][j][0], 'ro', 
+               alpha=opacity,
+               color='y',
+               linestyle='-',
+               label=u"Sabado")
 
-    plt.plot(x_domingo, domingo[j][0], 'ro', 
-             alpha=opacity,
-             color='k',
-             linestyle='-',
-             label=u"Domingo")
+      plt.plot(eje_x['x_domingo_' + str(s)], anio_sabado[s][j][0], 'ro', 
+               alpha=opacity,
+               color='k',
+               linestyle='-',
+               label=u"Domingo")
 
-    plt.xlabel(u"dias")
-    plt.ylabel(u"Cantidad de delays")
-    plt.xticks([12+24*j for j in range(0,7)],['Lun', 'mar', 'mier', 'juev', 'vier', 'sab', 'dom'],fontsize=10)
-    plt.legend()
-    plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
-    plt.show()
+      plt.xlabel(u"dias")
+      plt.ylabel(u"Cantidad de delays")
+      plt.xticks([12+24*j for j in range(0,7)],['Lun', 'mar', 'mier', 'juev', 'vier', 'sab', 'dom'],fontsize=10)
+      plt.legend()
+      plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
+      plt.show()
 
 if __name__ == "__main__":
   main()
