@@ -16,9 +16,28 @@ def func(data, data_filter, amount):
         data_filter[i][0][k] /= float(amount[i])
         data_filter[i][1][k] /= float(amount[i])
 
+##directory = directorio donde se crearán archivos con resultados
+##airport = aeropuerto 
+##an = año 
+##delay_filter = por qué delay filtrar
+##data = la información que se quiere obtener
+#
+#def graficarHoraDelay2(directory, airport, an, delay_filter, data):
+#
+## Instancio los arreglos para los datos
+#
+#  anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+#
+#  filtro_anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+#
+#  file_out = directory + '/' + airport + an + '.csv'
+#  print file_out
+#
+#  readFile(file_out, anio, filtro_anio, data, delay_filter)
+
 def readFile(File, anio, filtro_anio, data, d_filter):
 
-  vuelos_por_dia = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)]
+  vuelos_por_dia = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)] #arreglo de dimensión 24(horas)*31(días)*12(meses)
   vuelos_por_dia_filtro = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)]
 
   with open(File, 'r') as file_:
@@ -34,37 +53,49 @@ def readFile(File, anio, filtro_anio, data, d_filter):
 
       # ESTOY CALCULANDO MAL EL TIEMPO DE VUELO. DEBERIA SER UN ENTERO ENTRE [0..23],  
       # TIEMPO DE VUELO = HORARIO DE VUELO
+      if tiempo_de_vuelo != 'NA': #cuento sólo si tengo datos
+        if len(tiempo_de_vuelo) == 4:
+#         print "La logintud del tiempo de vuelo es:"
+#         print len(tiempo_de_vuelo)
+          tiempo_de_vuelo = int(tiempo_de_vuelo[:2]) # Extrae los 2 primeros caracteres 
+#         print "El tiempo de vuelo quedó en:"
+#         print tiempo_de_vuelo
+        elif len(tiempo_de_vuelo) == 3:
+#print "La logintud del tiempo de vuelo es:"
+#         print len(tiempo_de_vuelo)
+          tiempo_de_vuelo = int(tiempo_de_vuelo[:1]) # Extrae el primer caracter
+#  if tiempo_de_vuelo < 6:
+#    print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
-      if len(tiempo_de_vuelo) == 4:
-        tiempo_de_vuelo = int(tiempo_de_vuelo[:2]) # Le saco los primeros dos caracteres
+#           print tiempo_de_vuelo
 
-      elif len(tiempo_de_vuelo) == 3:
-        tiempo_de_vuelo = int(tiempo_de_vuelo[:1]) # Le saco primer caracter
+        elif len(tiempo_de_vuelo) <= 2:
+#         print "La logintud del tiempo de vuelo es:"
+#         print len(tiempo_de_vuelo)
+          tiempo_de_vuelo = 0                        # Es 00 y un numerito por ende es la primer posicion 
+#         print "El tiempo de vuelo quedó en:"
+#         print tiempo_de_vuelo
 
-      elif len(tiempo_de_vuelo) <= 2:
-        tiempo_de_vuelo = 0                        # Es 00 y un numerito por ende es la primer posicion 
 
-      print tiempo_de_vuelo
+        if (delay != 'NA'):
+          vuelos_por_dia[mes][dia_del_mes][tiempo_de_vuelo] += 1 
 
-      if (delay != 'NA'):
-        vuelos_por_dia[mes][dia_del_mes][tiempo_de_vuelo] += 1 
+        if (delay != 'NA' and int(delay) > 15):
 
-      if (delay != 'NA' and int(delay) > 15):
+          anio[mes][dia_del_mes][0][tiempo_de_vuelo] += 1             # Cuento la cantidad de datos por hora
+          anio[mes][dia_del_mes][1][tiempo_de_vuelo] += int(delay)    # Cuento la cantidad de datos por hora
+          anio[mes][dia_del_mes][2]                  = dia_de_semana  # Sumo todos los datos del dia
+          anio[mes][dia_del_mes][3]                  = dia_del_mes    # Guardo el dia de semana para el gráfico
 
-        anio[mes][dia_del_mes][0][tiempo_de_vuelo] += 1             # Cuento la cantidad de datos por hora
-        anio[mes][dia_del_mes][1][tiempo_de_vuelo] += int(delay)    # Cuento la cantidad de datos por hora
-        anio[mes][dia_del_mes][2]                  = dia_de_semana  # Sumo todos los datos del dia
-        anio[mes][dia_del_mes][3]                  = dia_del_mes    # Guardo el dia de semana para el gráfico
+        if (delay_filter != 'NA'):
+          vuelos_por_dia_filtro[mes][dia_del_mes][tiempo_de_vuelo] += 1 
 
-      if (delay_filter != 'NA'):
-        vuelos_por_dia_filtro[mes][dia_del_mes][tiempo_de_vuelo] += 1 
+        if (delay_filter != 'NA' and int(delay_filter) > 15):
 
-      if (delay_filter != 'NA' and int(delay_filter) > 15):
-
-        filtro_anio[mes][dia_del_mes][0][tiempo_de_vuelo] += 1                 # Cuento la cantidad de datos por hora
-        filtro_anio[mes][dia_del_mes][1][tiempo_de_vuelo] += int(delay_filter) # Cuento la cantidad de datos por hora
-        filtro_anio[mes][dia_del_mes][2]                  = dia_de_semana      # Sumo todos los datos del dia
-        filtro_anio[mes][dia_del_mes][3]                  = dia_del_mes        # Guardo el dia de semana para el gráfico
+          filtro_anio[mes][dia_del_mes][0][tiempo_de_vuelo] += 1                 # Cuento la cantidad de datos por hora
+          filtro_anio[mes][dia_del_mes][1][tiempo_de_vuelo] += int(delay_filter) # Cuento la cantidad de datos por hora
+          filtro_anio[mes][dia_del_mes][2]                  = dia_de_semana      # Sumo todos los datos del dia
+          filtro_anio[mes][dia_del_mes][3]                  = dia_del_mes        # Guardo el dia de semana para el gráfico
 
 
     for i in range(0, 12):
@@ -74,7 +105,7 @@ def readFile(File, anio, filtro_anio, data, d_filter):
             anio[i][j][1][k] /= float(anio[i][j][0][k])                       # Divido la sumatoria de delays por la cantidad de delays
 
           if vuelos_por_dia[i][j][k] != 0:
-            anio[i][j][0][k] /= float(vuelos_por_dia[i][j][k])               # Divido la cantidad de delays por la cantidad de vuelos en el dia
+            anio[i][j][0][k] /= float(vuelos_por_dia[i][j][k])               # Divido la cantidad de delays por la cantidad de vuelos en el dia en horario k
 
           if filtro_anio[i][j][0][k] != 0:
             filtro_anio[i][j][1][k] /= float(filtro_anio[i][j][0][k])         # Divido la sumatoria de delays por la cantidad de delays
@@ -82,6 +113,11 @@ def readFile(File, anio, filtro_anio, data, d_filter):
           if vuelos_por_dia_filtro[i][j][k] != 0:
             filtro_anio[i][j][0][k] /= float(vuelos_por_dia_filtro[i][j][k]) # Divido la cantidad de delays por la cantidad de vuelos en el dia
 
+#directory = directorio donde se crearán archivos con resultados
+#airport = aeropuerto 
+#an = año 
+#delay_filter = por qué delay filtrar
+#data = la información que se quiere obtener
 
 def graficarHoraDelay2(directory, airport, an, delay_filter, data):
 
@@ -130,11 +166,26 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   for i in range(0, 12):
     mes = anio[i]
     filtro_mes = filtro_anio[i]
-
     # Por cada dia del mes
     for j in range(0, 31):
       day = mes[j]
       filtro_day = filtro_mes[j]
+      
+      #acumulo la cantidad de días del mes según día 
+      if day[2] == 1:
+        cant_lunes[i] += 1
+      elif day[2] == 2:
+        cant_martes[i] += 1
+      elif day[2] == 3:
+        cant_miercoles[i] += 1
+      elif day[2] == 4:
+        cant_jueves[i] += 1
+      elif day[2] == 5:
+        cant_viernes[i] += 1
+      elif day[2] == 6:
+        cant_sabado[i] += 1
+      elif day[2] == 7:
+        cant_domingo[i] += 1
 
       # Por cada hora
       for k in range(0, 24):
@@ -155,17 +206,11 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
           filtro_lunes[i][0][k] += filtro_cant_datos
           filtro_lunes[i][1][k] += filtro_datos
 
-          # ESTO ME PARECE QUE ESTOY SUMANDO POR HORA EN VEZ DE POR DIA
-
-          cant_lunes[i] += 1 # Le meto en la primer posicion la cantidad de datos
-
         elif day[2] == 2:
           martes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
           martes[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
           filtro_martes[i][0][k] += filtro_cant_datos
           filtro_martes[i][1][k] += filtro_datos
-
-          cant_martes[i] += 1 # Le meto en la primer posicion la cantidad de datos
 
         elif day[2] == 3:
           miercoles[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
@@ -173,15 +218,11 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
           filtro_miercoles[i][0][k] += filtro_cant_datos
           filtro_miercoles[i][1][k] += filtro_datos
 
-          cant_miercoles[i] += 1 # Le meto en la primer posicion la cantidad de datos
-
         elif day[2] == 4:
           jueves[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
           jueves[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
           filtro_jueves[i][0][k] += filtro_cant_datos
           filtro_jueves[i][1][k] += filtro_datos
-
-          cant_jueves[i] += 1 # Le meto en la primer posicion la cantidad de datos
 
         elif day[2] == 5:
           viernes[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
@@ -189,15 +230,11 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
           filtro_viernes[i][0][k] += filtro_cant_datos
           filtro_viernes[i][1][k] += filtro_datos
 
-          cant_viernes[i] += 1 # Le meto en la primer posicion la cantidad de datos
-
         elif day[2] == 6:
           sabado[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
           sabado[i][1][k] += datos # Le meto en la segunda posicion la suma de los daots
           filtro_sabado[i][0][k] += filtro_cant_datos
           filtro_sabado[i][1][k] += filtro_datos
-
-          cant_sabado[i] += 1 # Le meto en la primer posicion la cantidad de datos
 
         elif day[2] == 7:
           domingo[i][0][k] += cant_datos # Le meto en la primer posicion la cantidad de datos
@@ -205,10 +242,23 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
           filtro_domingo[i][0][k] += filtro_cant_datos
           filtro_domingo[i][1][k] += filtro_datos
 
-          cant_domingo[i] += 1 # Le meto en la primer posicion la cantidad de datos
+  print "tu vie"
+  print cant_lunes
+  print "tu vie"
+  print cant_martes
+  print "tu vie"
+  print cant_miercoles
+  print "tu vie"
+  print cant_jueves
+  print "tu vie"
+  print cant_viernes
+  print "tu vie"
+  print cant_sabado
+  print "tu vie"
+  print cant_domingo
 
-  print "printeando"
-  print lunes[0]
+#print "printeando"
+# print lunes[0]
 
   # Sacar el promedio por mes
   func(lunes, filtro_lunes, cant_lunes)
@@ -239,7 +289,7 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   x_sabado    = [i for i in range(120, 144)] 
   x_domingo   = [i for i in range(144, 168)] 
 
-  print lunes[0][0][0]
+#print lunes[0][0][0]
 
   opacity = 0.4
 
