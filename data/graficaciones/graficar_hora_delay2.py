@@ -291,26 +291,34 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   for s in range(0, ultimo_anio - primer_anio + 1):
     eje_x['x_lunes_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
+    print eje_x['x_lunes_' + str(s)]
     eje_x['x_martes_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
+    print eje_x['x_martes_' + str(s)]
     eje_x['x_miercoles_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
+    print eje_x['x_miercoles_' + str(s)]
     eje_x['x_jueves_' + str(s)] = [i for i in range(aux, aux+24)]    
     aux +=24
+    print eje_x['x_jueves_' + str(s)]
     eje_x['x_viernes_' + str(s)] =[i for i in range(aux, aux+24)]   
     aux +=24
+    print eje_x['x_viernes_' + str(s)]
     eje_x['x_sabado_' + str(s)] = [i for i in range(aux, aux+24)]  
     aux +=24
+    print eje_x['x_sabado_' + str(s)]
     eje_x['x_domingo_' + str(s)] =[i for i in range(aux, aux+24)]  
+    print eje_x['x_domingo_' + str(s)]
 
   opacity = 0.4
 
   for s in range(0, ultimo_anio - primer_anio + 1):
+    print 'entre' + str(s)
 
     for j in range(0, 12):
 
-      for k in range(0, 7):
-        plt.axvline(x=24*k, linewidth=2, color='k')
+#for k in range(0, 7):
+#       plt.axvline(x=24*k, linewidth=2, color='k')
 
       plt.plot(eje_x['x_lunes_' + str(s)], anio_lunes[s][j][0], 'ro', 
                alpha=opacity,
@@ -354,12 +362,15 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
                linestyle='-',
                label=u"Domingo")
 
-      plt.xlabel(u"dias")
-      plt.ylabel(u"Cantidad de delays")
-      plt.xticks([12+24*j for j in range(0,7)],['Lun', 'mar', 'mier', 'juev', 'vier', 'sab', 'dom'],fontsize=10)
-      plt.legend()
-      plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
-      plt.show()
+    plt.xlabel(u"dias")
+    plt.ylabel(u"Cantidad de delays")
+    dias = ['lu', 'ma', 'mi', 'ju', 'vi', 'sa', 'do']
+    labels = [dias[i % 7] for i in range(0, (ultimo_anio - primer_anio + 1)*7)] 
+    print labels
+    plt.xticks([12+24*j for j in range(0, (ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
+    plt.legend()
+    plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
+    plt.show()
 
 if __name__ == "__main__":
   main()
