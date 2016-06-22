@@ -10,6 +10,8 @@ from graficaciones.graficar_mes_delay import graficarMesDelay
 from graficaciones.graficar_mes_delay2 import graficarMesDelay2
 from graficaciones.graficar_semana_delay import graficarSemanaDelay
 from graficaciones.graficar_semana_delay2 import graficarSemanaDelay2
+from graficaciones.graficar_hora_delay import graficarHoraDelay
+from graficaciones.graficar_hora_delay2 import graficarHoraDelay2
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -38,7 +40,7 @@ def menu(airport_1, airport_2 = None):
     directory_1 += '/' + airport_1 + 'dest'
     if airport_2 != None:
       directory_2 += '/' + airport_2 + 'dest'
-  elif data == 15:
+  elif data == 15 or data == 21:
     directory_1 += '/' + airport_1 + 'org'
     if airport_2 != None:
       directory_2 += '/' + airport_2 + 'org'
@@ -59,6 +61,7 @@ def menu(airport_1, airport_2 = None):
   print "1: Semana por año" 
   print "2: Día del mes" 
   print "3: Día de la semana" 
+  print "4: Hora" 
   granularity = int(raw_input("Ingrese un número: "))
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -92,6 +95,10 @@ def menu(airport_1, airport_2 = None):
         graficarSemanaDelay(directory_1, airport_1, delay_filter, data)
       else:
         graficarSemanaDelay2(directory_1, directory_2, directory_both, airport_1, airport_2, delay_filter, data)
+
+    elif granularity == 4:
+      #graficarHoraDelay(directory_1, airport_1, delay_filter, data)
+      graficarHoraDelay2(directory_1, airport_1, '2005', delay_filter, data)
 
 def main():
 

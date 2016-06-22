@@ -61,3 +61,5 @@ for f in files:
 
         if line_aux[17] == airport:
           file_out.write(line)
+
+os.system("cvlc ../tools/audios/delicious.mp3" )
