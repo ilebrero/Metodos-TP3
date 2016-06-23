@@ -291,13 +291,13 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   for s in range(0, ultimo_anio - primer_anio + 1):
     eje_x['x_lunes_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
-#print eje_x['x_lunes_' + str(s)]
+#   print eje_x['x_lunes_' + str(s)]
     eje_x['x_martes_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
 #   print eje_x['x_martes_' + str(s)]
     eje_x['x_miercoles_' + str(s)] = [i for i in range(aux, aux+24)]
     aux +=24
-#   print eje_x['x_miercoles_' + str(s)]
+    print eje_x['x_miercoles_' + str(s)]
     eje_x['x_jueves_' + str(s)] = [i for i in range(aux, aux+24)]    
     aux +=24
 #   print eje_x['x_jueves_' + str(s)]
@@ -309,64 +309,119 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
 #   print eje_x['x_sabado_' + str(s)]
     eje_x['x_domingo_' + str(s)] =[i for i in range(aux, aux+24)]  
 #   print eje_x['x_domingo_' + str(s)]
+    aux +=24
 
   opacity = 0.4
+  dias_grafico = ['lu', 'ma', 'mi', 'ju', 'vi', 'sa', 'do']
+  dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+  meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-  for s in range(0, ultimo_anio - primer_anio + 1):
+#for s in range(0, ultimo_anio - primer_anio + 1):
 
-    for j in range(0, 12):
+  for j in range(0, 12):
+    print j
 
-      for k in range(0, 7):
-        plt.axvline(x=24*k, linewidth=2, color='k')
+    for h in range(0, ultimo_anio - primer_anio + 1):
+      for k in range(0, 7*(ultimo_anio - primer_anio + 1)):
+        plt.axvline(x=24*k, linewidth=1, color='k')
+      if h == 0:  
+        print eje_x['x_lunes_' + str(h)]
+        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='b',
+        linestyle='-',
+        label=u"Lunes")
 
-      plt.plot(eje_x['x_lunes_' + str(s)], anio_lunes[s][j][0], 'ro', 
-      alpha=opacity,
-      color='b',
-      linestyle='-',
-      label=u"Lunes")
 
-      plt.plot(eje_x['x_martes_' + str(s)], anio_martes[s][j][0], 'ro', 
-      alpha=opacity,
-      color='g',
-      linestyle='-',
-      label=u"Martes")
+        print eje_x['x_martes_' + str(h)]
+        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='g',
+        linestyle='-',
+        label=u"Martes")
 
-      plt.plot(eje_x['x_miercoles_' + str(s)], anio_miercoles[s][j][0], 'ro', 
-      alpha=opacity,
-      color='r',
-      linestyle='-',
-      label=u"Miercoles")
+        print eje_x['x_miercoles_' + str(h)]
+        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
+        alpha=opacity,
+        color='r',
+        linestyle='-',
+        label=u"Miercoles")
 
-      plt.plot(eje_x['x_jueves_' + str(s)], anio_jueves[s][j][0], 'ro', 
-      alpha=opacity,
-      color='c',
-      linestyle='-',
-                                                                                                                  label=u"Jueves")
+        print eje_x['x_jueves_' + str(h)]
+        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
+        alpha=opacity,
+        color='c',
+        linestyle='-',
+                                                                                                                    label=u"Jueves")
 
-      plt.plot(eje_x['x_viernes_' + str(s)], anio_viernes[s][j][0], 'ro', 
-      alpha=opacity,
-      color='m',
-      linestyle='-',
-      label=u"Viernes")
+        print eje_x['x_martes_' + str(h)]
+        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='m',
+        linestyle='-',
+        label=u"Viernes")
 
-      plt.plot(eje_x['x_sabado_' + str(s)], anio_sabado[s][j][0], 'ro', 
-      alpha=opacity,
-      color='y',
-      linestyle='-',
-      label=u"Sabado")
+        print eje_x['x_sabado_' + str(h)]
+        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
+        alpha=opacity,
+        color='y',
+        linestyle='-',
+        label=u"Sabado")
 
-      plt.plot(eje_x['x_domingo_' + str(s)], anio_domingo[s][j][0], 'ro', 
-      alpha=opacity,
-      color='k',                                                                                                  linestyle='-',
-      label=u"Domingo")
-      plt.xlabel(u"dias")
-      plt.ylabel(u"Cantidad de delays")
-      dias = ['lu', 'ma', 'mi', 'ju', 'vi', 'sa', 'do']
-      labels = [dias[i % 7] for i in range(0, (ultimo_anio - primer_anio + 1)*7)] 
-      plt.xticks([12+24*j for j in range(0, (ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
-      plt.legend()
-      plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
-      plt.show()
+        print eje_x['x_domingo_' + str(h)]
+        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
+        alpha=opacity,
+        color='k',                                                                                                  linestyle='-',
+        label=u"Domingo")
+      else:  
+        print eje_x['x_lunes_' + str(h)]
+        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='b',
+        linestyle='-')
+
+
+        print eje_x['x_martes_' + str(h)]
+        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='g',
+        linestyle='-')
+
+        print eje_x['x_miercoles_' + str(h)]
+        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
+        alpha=opacity,
+        color='r',
+        linestyle='-')
+
+        print eje_x['x_jueves_' + str(h)]
+        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
+        alpha=opacity,
+        color='c',
+        linestyle='-')
+
+        print eje_x['x_martes_' + str(h)]
+        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
+        alpha=opacity,
+        color='m',
+        linestyle='-')
+
+        print eje_x['x_sabado_' + str(h)]
+        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
+        alpha=opacity,
+        color='y',
+        linestyle='-')
+
+        print eje_x['x_domingo_' + str(h)]
+        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
+        alpha=opacity,
+        color='k',                                                                                                  linestyle='-')
+    plt.xlabel(u"dias")
+    plt.ylabel(u"Cantidad de delays del mes " + meses[j])
+    labels = [dias_grafico[i % 7] for i in range(0, (ultimo_anio - primer_anio + 1)*7)] 
+    plt.xticks([12+24*j for j in range(0, (ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
+    plt.legend()
+    plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
+    plt.show()
 
 #for s in range(0, ultimo_anio - primer_anio + 1):
 #   print 'entre' + str(s)
