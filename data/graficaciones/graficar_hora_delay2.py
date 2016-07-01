@@ -2,9 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from graficaciones.graficar_cuadrados_minimos import calcularCML
 import matplotlib.pyplot as plt
 from math import log
 import os
+
+#def func(x, a, b):
+ # return a*np.sin(x()) + b
+
+#ultima prueba
+def func(x, b, c):
+  return np.abs(np.sin(x + c) + np.cos(x + b))
+
+#def func2(x, b):
+#  return np.abs(0.7 * np.sin(x/float(10)) * np.cos(x/float(10))) + b
 
 def func(data, data_filter, amount):
   for i in range(0, 12):
