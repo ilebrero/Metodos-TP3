@@ -3,10 +3,16 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from graficaciones.graficar_cuadrados_minimos import calcularCML
 from math import log
 import os
 
-def func(data, data_filter, amount):
+#para CML: función utilizada para aproximar
+def func(x, b, c):
+  return np.abs(np.sin(x + c) + np.cos(x + b))
+
+#función utilizada para calcular promedios
+def func_prom(data, data_filter, amount):
   for i in range(0, 12):
     for k in range(0, 24):
 
@@ -21,23 +27,10 @@ def func(data, data_filter, amount):
 ##an = año 
 ##delay_filter = por qué delay filtrar
 ##data = la información que se quiere obtener
-#
-#def graficarHoraDelay2(directory, airport, an, delay_filter, data):
-#
-## Instancio los arreglos para los datos
-#
-#  anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
-#
-#  filtro_anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
-#
-#  file_out = directory + '/' + airport + an + '.csv'
-#  print file_out
-#
-#  readFile(file_out, anio, filtro_anio, data, delay_filter)
 
 def readFile(File, anio, filtro_anio, data, d_filter):
 
-  vuelos_por_dia = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)] #arreglo de dimensión 24(horas)*31(días)*12(meses)
+  vuelos_por_dia =        [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)] #arreglo de dimensión 24(horas)*31(días)*12(meses)
   vuelos_por_dia_filtro = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)]
 
   with open(File, 'r') as file_:
@@ -60,14 +53,11 @@ def readFile(File, anio, filtro_anio, data, d_filter):
           tiempo_de_vuelo = int(tiempo_de_vuelo[:2]) # Extrae los 2 primeros caracteres 
 #         print "El tiempo de vuelo quedó en:"
 #         print tiempo_de_vuelo
+
         elif len(tiempo_de_vuelo) == 3:
 #print "La logintud del tiempo de vuelo es:"
 #         print len(tiempo_de_vuelo)
           tiempo_de_vuelo = int(tiempo_de_vuelo[:1]) # Extrae el primer caracter
-#  if tiempo_de_vuelo < 6:
-#    print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-
-#           print tiempo_de_vuelo
 
         elif len(tiempo_de_vuelo) <= 2:
 #         print "La logintud del tiempo de vuelo es:"
@@ -120,23 +110,23 @@ def readFile(File, anio, filtro_anio, data, d_filter):
 #data = la información que se quiere obtener
 
 def graficarHoraDelay2(directory, airport, an, delay_filter, data):
-  
-# Instancio los arreglos para los datos, del 2005 al 2008
-  primer_anio = 6
+#requiere primer_anio <= ultimo_anio y primer_anio >= 2000  
+  primer_anio = 7
   ultimo_anio = 8
         
-  anio_lunes = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
-  anio_martes= [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+# Instancio los arreglos para los datos, del 2005 al 2008
+  anio_lunes     = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_martes    = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
   anio_miercoles = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
-  anio_jueves = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
-  anio_viernes = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
-  anio_sabado = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
-  anio_domingo = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_jueves    = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_viernes   = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_sabado    = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
+  anio_domingo   = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
 
   for l in range(primer_anio, ultimo_anio + 1):
 
     filtro_anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
-    anio = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
+    anio        = [[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)]
 
     file_out = directory + '/' + airport + "200"+ str(l) + '.csv'
     print file_out
@@ -254,14 +244,15 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
             filtro_domingo[i][1][k] += filtro_datos
 
     # Sacar el promedio por mes
-    func(lunes, filtro_lunes, cant_lunes)
-    func(martes, filtro_martes, cant_martes)
-    func(miercoles, filtro_miercoles, cant_miercoles)
-    func(jueves, filtro_jueves, cant_jueves)
-    func(viernes, filtro_viernes, cant_viernes)
-    func(sabado, filtro_sabado, cant_sabado)
-    func(domingo, filtro_domingo, cant_domingo)
+    func_prom(lunes, filtro_lunes, cant_lunes)
+    func_prom(martes, filtro_martes, cant_martes)
+    func_prom(miercoles, filtro_miercoles, cant_miercoles)
+    func_prom(jueves, filtro_jueves, cant_jueves)
+    func_prom(viernes, filtro_viernes, cant_viernes)
+    func_prom(sabado, filtro_sabado, cant_sabado)
+    func_prom(domingo, filtro_domingo, cant_domingo)
 
+    #guardo los datos de un año y vuelvo a iterar
     anio_lunes[l - primer_anio] = lunes
     anio_martes[l - primer_anio] = martes
     anio_miercoles[l - primer_anio] = miercoles
@@ -269,11 +260,6 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
     anio_viernes[l - primer_anio] = viernes
     anio_sabado[l - primer_anio] = sabado
     anio_domingo[l - primer_anio] = domingo
-
-    #if anio_lunes[l - primer_anio] == lunes:
-    #  print "todo ok para el " + str(l)
-    #else:
-    #  print "todo mal para el " + str(l)
 
 
   # El promedio de cada hora por anio.
@@ -284,42 +270,38 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   if not os.path.exists(directory + '/graficos'):
     os.mkdir(directory + '/graficos')
 
-  # lunes[mes][0][hora] Tengo la acumulada de cantidad de delays por mes
-  # lunes[mes][1][hora] Tengo la acumulada de delays por mes
-  aux = 0
-  eje_x = {}
-  for s in range(0, ultimo_anio - primer_anio + 1):
-    eje_x['x_lunes_' + str(s)] = [i for i in range(aux, aux+24)]
-    aux +=24
-#   print eje_x['x_lunes_' + str(s)]
-    eje_x['x_martes_' + str(s)] = [i for i in range(aux, aux+24)]
-    aux +=24
-#   print eje_x['x_martes_' + str(s)]
-    eje_x['x_miercoles_' + str(s)] = [i for i in range(aux, aux+24)]
-    aux +=24
-#   print eje_x['x_miercoles_' + str(s)]
-    eje_x['x_jueves_' + str(s)] = [i for i in range(aux, aux+24)]    
-    aux +=24
-#   print eje_x['x_jueves_' + str(s)]
-    eje_x['x_viernes_' + str(s)] =[i for i in range(aux, aux+24)]   
-    aux +=24
-#   print eje_x['x_viernes_' + str(s)]
-    eje_x['x_sabado_' + str(s)] = [i for i in range(aux, aux+24)]  
-    aux +=24
-#   print eje_x['x_sabado_' + str(s)]
-    eje_x['x_domingo_' + str(s)] =[i for i in range(aux, aux+24)]  
-#   print eje_x['x_domingo_' + str(s)]
-    aux +=24
+# NO HICE NINGUNA CARPETA PARTICULAR PARA CML, NI IDEA SI ESTA MAL O QUE, SOY JES        
+#  if not os.path.exists(directory + '/datosparacml'):
+#    os.mkdir(directory + '/datosparacml')
 
-  opacity = 0.4
+# with open(directory + '/datosparacml/' + 'cancelaciones_semana_' + airport, 'w+') as file_out_data:
+#     for val in cancelaciones:
+#       file_out_data.write(str(val) + '\n')
+  
+
   dias_grafico = ['lu', 'ma', 'mi', 'ju', 'vi', 'sa', 'do']
   dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
   meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-#for s in range(0, ultimo_anio - primer_anio + 1):
+
+  aux = 0
+  #inicializo dict eje_x con 24 horas para cada dia de la semana para cada anio entre ultimo_anio y primer_anio 
+  eje_x = {}
+  
+  for s in range(0, ultimo_anio - primer_anio + 1):
+    for d in dias:      
+      eje_x['x_' + d + '_' + str(s)] = [i for i in range(aux, aux+24)]
+      aux +=24
+
+  opacity = 0.4
+
 
   for j in range(0, 12):
 
+    #inicializo arreglos para CML
+    valsX = []
+    valsY = []
+    
     for h in range(0, ultimo_anio - primer_anio + 1):
     
       for k in range(0, 7*(ultimo_anio - primer_anio + 1)):
@@ -333,6 +315,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='b',
         linestyle='-',
         label=u"Lunes")
+        valsX += eje_x['x_lunes_' + str(h)]
+        valsY += anio_lunes[h][j][0]
 
 
 #       print eje_x['x_martes_' + str(h)]
@@ -341,6 +325,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='g',
         linestyle='-',
         label=u"Martes")
+        valsX += eje_x['x_martes_' + str(h)]
+        valsY += anio_martes[h][j][0]
 
 #       print eje_x['x_miercoles_' + str(h)]
         plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
@@ -348,6 +334,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='r',
         linestyle='-',
         label=u"Miercoles")
+        valsX += eje_x['x_miercoles_' + str(h)]
+        valsY += anio_miercoles[h][j][0]
 
 #       print eje_x['x_jueves_' + str(h)]
         plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
@@ -355,6 +343,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='c',
         linestyle='-',
         label=u"Jueves")
+        valsX += eje_x['x_jueves_' + str(h)]
+        valsY += anio_jueves[h][j][0]
 
 #       print eje_x['x_martes_' + str(h)]
         plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
@@ -362,6 +352,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='m',
         linestyle='-',
         label=u"Viernes")
+        valsX += eje_x['x_viernes_' + str(h)]
+        valsY += anio_viernes[h][j][0]
 
 #       print eje_x['x_sabado_' + str(h)]
         plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
@@ -369,12 +361,16 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         color='y',
         linestyle='-',
         label=u"Sabado")
+        valsX += eje_x['x_sabado_' + str(h)]
+        valsY += anio_sabado[h][j][0]
 
 #       print eje_x['x_domingo_' + str(h)]
         plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
         alpha=opacity,
         color='k',                                                                                                  linestyle='-',
         label=u"Domingo")
+        valsX += eje_x['x_domingo_' + str(h)]
+        valsY += anio_domingo[h][j][0]
 
       else:
 
@@ -383,6 +379,8 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         alpha=opacity,
         color='b',
         linestyle='-')
+        valsX += eje_x['x_lunes_' + str(h)]
+        valsY += anio_lunes[h][j][0]
 
 
 #       print eje_x['x_martes_' + str(h)]
@@ -390,40 +388,61 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
         alpha=opacity,
         color='g',
         linestyle='-')
+        valsX += eje_x['x_martes_' + str(h)]
+        valsY += anio_martes[h][j][0]
 
 #       print eje_x['x_miercoles_' + str(h)]
         plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
         alpha=opacity,
         color='r',
         linestyle='-')
+        valsX += eje_x['x_miercoles_' + str(h)]
+        valsY += anio_miercoles[h][j][0]
 
 #       print eje_x['x_jueves_' + str(h)]
         plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
         alpha=opacity,
         color='c',
         linestyle='-')
+        valsX += eje_x['x_jueves_' + str(h)]
+        valsY += anio_jueves[h][j][0]
 
 #       print eje_x['x_martes_' + str(h)]
         plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
         alpha=opacity,
         color='m',
         linestyle='-')
+        valsX += eje_x['x_viernes_' + str(h)]
+        valsY += anio_viernes[h][j][0]
 
 #       print eje_x['x_sabado_' + str(h)]
         plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
         alpha=opacity,
         color='y',
         linestyle='-')
+        valsX += eje_x['x_sabado_' + str(h)]
+        valsY += anio_sabado[h][j][0]
 
 #       print eje_x['x_domingo_' + str(h)]
         plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
         alpha=opacity,
         color='k',                                                                                                  linestyle='-')
+        valsX += eje_x['x_domingo_' + str(h)]
+        valsY += anio_domingo[h][j][0]
     
     plt.xlabel(u"días")
     plt.ylabel(u"Cantidad de delays de " + meses[j])
     labels = [dias_grafico[i % 7] for i in range(0, (ultimo_anio - primer_anio + 1)*7)] 
     plt.xticks([12+24*j for j in range(0, (ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
+
+    #CML
+    valsEstimacion = []
+    param = calcularCML(valsX, valsY, func)
+    for i in range(0, len(valsX)):
+      valsEstimacion.append(func(i, param[0], param[1]))
+
+    plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='g')    
+
     plt.legend()
     plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
     plt.show()
