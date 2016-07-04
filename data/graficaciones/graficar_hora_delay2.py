@@ -2,14 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import matplotlib.pyplot as plt
 from graficaciones.graficar_cuadrados_minimos import calcularCML
+import matplotlib.pyplot as plt
 from math import log
 import os
 
 #para CML: función utilizada para aproximar
 def func(x, b, c):
   return np.abs(np.sin(x + c) + np.cos(x + b))
+
+#def func(x, a, b):
+ # return a*np.sin(x()) + b
+
+#def func2(x, b):
+#  return np.abs(0.7 * np.sin(x/float(10)) * np.cos(x/float(10))) + b
 
 #función utilizada para calcular promedios
 def func_prom(data, data_filter, amount):
