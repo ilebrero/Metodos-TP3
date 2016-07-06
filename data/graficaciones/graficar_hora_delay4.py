@@ -103,10 +103,10 @@ def readFile(File, anio, filtro_anio, data, d_filter):
 #delay_filter = por qué delay filtrar
 #data = la información que se quiere obtener
 
-def graficarHoraDelay2(directory, airport, an, delay_filter, data):
+def graficarHoraDelay4(directory, airport, an, delay_filter, data):
 #requiere primer_anio <= ultimo_anio y primer_anio >= 2000  
-  primer_anio = 7
-  ultimo_anio = 8
+  primer_anio = 5
+  ultimo_anio = 5
         
 # Instancio los arreglos para los datos, del 2005 al 2008
   anio_lunes     = [[[[[0 for k in range(0, 24)], [0 for z in range(0, 24)], 0, 0] for i in range(0, 31)] for j in range(0,12)] for q in range(0, ultimo_anio - primer_anio + 1)]
@@ -281,16 +281,26 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
   aux = 0
   #inicializo dict eje_x con 24 horas para cada dia de la semana para cada anio entre ultimo_anio y primer_anio 
   eje_x = {}
+  eje_x2 = {}
   
   for s in range(0, ultimo_anio - primer_anio + 1):
+    aux = 0
     for d in dias:      
-      eje_x['x_' + d + '_' + str(s)] = [i for i in range(aux, aux+24)]
-      aux +=24
+      if s == 0:
+        eje_x['x_' + d + '_' + str(s)] = [i for i in range(aux, aux+24)]
+        eje_x2['x_' + d + '_' + str(s)] = [i for i in range(aux+168, aux+24+168)]
+        aux +=24
+      else:
+        eje_x['x_' + d + '_' + str(s)] = [i for i in range(336+aux, 336+aux+24)]
+        eje_x2['x_' + d + '_' + str(s)] = [i for i in range(504+aux, aux+24+504)]
+        aux +=24
+
 
   opacity = 0.4
 
 
-  for j in range(0, 12):
+  #for j in range(0, 12):
+  for j in range(0, 6):
 
     #inicializo arreglos para CML
     valsX = []
@@ -298,136 +308,268 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
     
     for h in range(0, ultimo_anio - primer_anio + 1):
     
-      for k in range(0, 7*(ultimo_anio - primer_anio + 1)):
+      for k in range(0, 2*7*(ultimo_anio - primer_anio + 1)):
         plt.axvline(x=24*k, linewidth=1, color='k')
     
       if h == 0:  
     
 #       print eje_x['x_lunes_' + str(h)]
-        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='b',
         linestyle='-',
         label=u"Lunes")
         valsX += eje_x['x_lunes_' + str(h)]
-        valsY += anio_lunes[h][j][0]
+        valsY += anio_lunes[h][2*j][0]
 
 
 #       print eje_x['x_martes_' + str(h)]
-        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='g',
         linestyle='-',
         label=u"Martes")
         valsX += eje_x['x_martes_' + str(h)]
-        valsY += anio_martes[h][j][0]
+        valsY += anio_martes[h][2*j][0]
 
 #       print eje_x['x_miercoles_' + str(h)]
-        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
+        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][2*j][0], 'ro', 
         alpha=opacity,
         color='r',
         linestyle='-',
         label=u"Miercoles")
         valsX += eje_x['x_miercoles_' + str(h)]
-        valsY += anio_miercoles[h][j][0]
+        valsY += anio_miercoles[h][2*j][0]
 
 #       print eje_x['x_jueves_' + str(h)]
-        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
+        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][2*j][0], 'ro', 
         alpha=opacity,
         color='c',
         linestyle='-',
         label=u"Jueves")
         valsX += eje_x['x_jueves_' + str(h)]
-        valsY += anio_jueves[h][j][0]
+        valsY += anio_jueves[h][2*j][0]
 
 #       print eje_x['x_martes_' + str(h)]
-        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='m',
         linestyle='-',
         label=u"Viernes")
         valsX += eje_x['x_viernes_' + str(h)]
-        valsY += anio_viernes[h][j][0]
+        valsY += anio_viernes[h][2*j][0]
 
 #       print eje_x['x_sabado_' + str(h)]
-        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
+        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][2*j][0], 'ro', 
         alpha=opacity,
         color='y',
         linestyle='-',
         label=u"Sabado")
         valsX += eje_x['x_sabado_' + str(h)]
-        valsY += anio_sabado[h][j][0]
+        valsY += anio_sabado[h][2*j][0]
 
 #       print eje_x['x_domingo_' + str(h)]
-        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
+        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][2*j][0], 'ro', 
         alpha=opacity,
         color='k',                                                                                                  linestyle='-',
         label=u"Domingo")
         valsX += eje_x['x_domingo_' + str(h)]
-        valsY += anio_domingo[h][j][0]
+        valsY += anio_domingo[h][2*j][0]
+
+
+        plt.plot(eje_x2['x_lunes_' + str(h)], anio_lunes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='b',
+        linestyle='-',
+        )
+        #label=u"Lunes")
+        valsX += eje_x2['x_lunes_' + str(h)]
+        valsY += anio_lunes[h][2*j+1][0]
+
+
+#       print eje_x2['x_martes_' + str(h)]
+        plt.plot(eje_x2['x_martes_' + str(h)], anio_martes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='g',
+        linestyle='-',
+        )
+        #label=u"Martes")
+        valsX += eje_x2['x_martes_' + str(h)]
+        valsY += anio_martes[h][2*j+1][0]
+
+#       print eje_x2['x_miercoles_' + str(h)]
+        plt.plot(eje_x2['x_miercoles_' + str(h)], anio_miercoles[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='r',
+        linestyle='-',
+        )
+        #label=u"Miercoles")
+        valsX += eje_x2['x_miercoles_' + str(h)]
+        valsY += anio_miercoles[h][2*j+1][0]
+
+#       print eje_x2['x_jueves_' + str(h)]
+        plt.plot(eje_x2['x_jueves_' + str(h)], anio_jueves[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='c',
+        linestyle='-',
+        )
+        #label=u"Jueves")
+        valsX += eje_x2['x_jueves_' + str(h)]
+        valsY += anio_jueves[h][2*j+1][0]
+
+#       print eje_x2['x_martes_' + str(h)]
+        plt.plot(eje_x2['x_viernes_' + str(h)], anio_viernes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='m',
+        linestyle='-',
+        )
+        #label=u"Viernes")
+        valsX += eje_x2['x_viernes_' + str(h)]
+        valsY += anio_viernes[h][2*j+1][0]
+
+#       print eje_x2['x_sabado_' + str(h)]
+        plt.plot(eje_x2['x_sabado_' + str(h)], anio_sabado[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='y',
+        linestyle='-',
+        )
+        #label=u"Sabado")
+        valsX += eje_x2['x_sabado_' + str(h)]
+        valsY += anio_sabado[h][2*j+1][0]
+
+#       print eje_x2['x_domingo_' + str(h)]
+        plt.plot(eje_x2['x_domingo_' + str(h)], anio_domingo[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='k',                                                                                                  linestyle='-',
+        )
+        #label=u"Domingo")
+        valsX += eje_x2['x_domingo_' + str(h)]
+        valsY += anio_domingo[h][2*j+1][0]
+
 
       else:
 
 #       print eje_x['x_lunes_' + str(h)]
-        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_lunes_' + str(h)], anio_lunes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='b',
         linestyle='-')
         valsX += eje_x['x_lunes_' + str(h)]
-        valsY += anio_lunes[h][j][0]
+        valsY += anio_lunes[h][2*j][0]
 
 
 #       print eje_x['x_martes_' + str(h)]
-        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_martes_' + str(h)], anio_martes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='g',
         linestyle='-')
         valsX += eje_x['x_martes_' + str(h)]
-        valsY += anio_martes[h][j][0]
+        valsY += anio_martes[h][2*j][0]
 
 #       print eje_x['x_miercoles_' + str(h)]
-        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][j][0], 'ro', 
+        plt.plot(eje_x['x_miercoles_' + str(h)], anio_miercoles[h][2*j][0], 'ro', 
         alpha=opacity,
         color='r',
         linestyle='-')
         valsX += eje_x['x_miercoles_' + str(h)]
-        valsY += anio_miercoles[h][j][0]
+        valsY += anio_miercoles[h][2*j][0]
 
 #       print eje_x['x_jueves_' + str(h)]
-        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][j][0], 'ro', 
+        plt.plot(eje_x['x_jueves_' + str(h)], anio_jueves[h][2*j][0], 'ro', 
         alpha=opacity,
         color='c',
         linestyle='-')
         valsX += eje_x['x_jueves_' + str(h)]
-        valsY += anio_jueves[h][j][0]
+        valsY += anio_jueves[h][2*j][0]
 
 #       print eje_x['x_martes_' + str(h)]
-        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][j][0], 'ro', 
+        plt.plot(eje_x['x_viernes_' + str(h)], anio_viernes[h][2*j][0], 'ro', 
         alpha=opacity,
         color='m',
         linestyle='-')
         valsX += eje_x['x_viernes_' + str(h)]
-        valsY += anio_viernes[h][j][0]
+        valsY += anio_viernes[h][2*j][0]
 
 #       print eje_x['x_sabado_' + str(h)]
-        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][j][0], 'ro', 
+        plt.plot(eje_x['x_sabado_' + str(h)], anio_sabado[h][2*j][0], 'ro', 
         alpha=opacity,
         color='y',
         linestyle='-')
         valsX += eje_x['x_sabado_' + str(h)]
-        valsY += anio_sabado[h][j][0]
+        valsY += anio_sabado[h][2*j][0]
 
 #       print eje_x['x_domingo_' + str(h)]
-        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][j][0], 'ro', 
+        plt.plot(eje_x['x_domingo_' + str(h)], anio_domingo[h][2*j][0], 'ro', 
         alpha=opacity,
         color='k',                                                                                                  linestyle='-')
         valsX += eje_x['x_domingo_' + str(h)]
-        valsY += anio_domingo[h][j][0]
+        valsY += anio_domingo[h][2*j][0]
+
+
+#       print eje_x2['x_lunes_' + str(h)]
+        print eje_x['x_lunes_' + str(h)]
+        print eje_x2['x_lunes_' + str(h)]
+        plt.plot(eje_x2['x_lunes_' + str(h)], anio_lunes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='b',
+        linestyle='-')
+        valsX += eje_x2['x_lunes_' + str(h)]
+        valsY += anio_lunes[h][2*j+1][0]
+
+
+#       print eje_x2['x_martes_' + str(h)]
+        plt.plot(eje_x2['x_martes_' + str(h)], anio_martes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='g',
+        linestyle='-')
+        valsX += eje_x2['x_martes_' + str(h)]
+        valsY += anio_martes[h][2*j+1][0]
+
+#       print eje_x2['x_miercoles_' + str(h)]
+        plt.plot(eje_x2['x_miercoles_' + str(h)], anio_miercoles[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='r',
+        linestyle='-')
+        valsX += eje_x2['x_miercoles_' + str(h)]
+        valsY += anio_miercoles[h][2*j+1][0]
+
+#       print eje_x2['x_jueves_' + str(h)]
+        plt.plot(eje_x2['x_jueves_' + str(h)], anio_jueves[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='c',
+        linestyle='-')
+        valsX += eje_x2['x_jueves_' + str(h)]
+        valsY += anio_jueves[h][2*j+1][0]
+
+#       print eje_x2['x_martes_' + str(h)]
+        plt.plot(eje_x2['x_viernes_' + str(h)], anio_viernes[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='m',
+        linestyle='-')
+        valsX += eje_x2['x_viernes_' + str(h)]
+        valsY += anio_viernes[h][2*j+1][0]
+
+#       print eje_x2['x_sabado_' + str(h)]
+        plt.plot(eje_x2['x_sabado_' + str(h)], anio_sabado[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='y',
+        linestyle='-')
+        valsX += eje_x2['x_sabado_' + str(h)]
+        valsY += anio_sabado[h][2*j+1][0]
+
+#       print eje_x2['x_domingo_' + str(h)]
+        plt.plot(eje_x2['x_domingo_' + str(h)], anio_domingo[h][2*j+1][0], 'ro', 
+        alpha=opacity,
+        color='k',                                                                                                  linestyle='-')
+        valsX += eje_x2['x_domingo_' + str(h)]
+        valsY += anio_domingo[h][2*j+1][0]
+
+
     
     plt.xlabel(u"días")
     plt.ylabel(u"Cantidad de delays de " + meses[j])
-    labels = [dias_grafico[i % 7] for i in range(0, (ultimo_anio - primer_anio + 1)*7)] 
-    plt.xticks([12+24*j for j in range(0, (ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
+    labels = [dias_grafico[i % 7] for i in range(0, 2*(ultimo_anio - primer_anio + 1)*7)] 
+    plt.xticks([12+24*j for j in range(0, 2*(ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
 
     #CML
     valsEstimacion = []
@@ -437,7 +579,7 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
 
     #plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='g')    
 
-    plt.legend()
+    plt.legend(bbox_to_anchor=(0.96, 1), prop={'size': 10})
     plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
     plt.show()
 
