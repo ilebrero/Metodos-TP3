@@ -13,6 +13,7 @@ from graficaciones.graficar_semana_delay2 import graficarSemanaDelay2
 from graficaciones.graficar_hora_delay import graficarHoraDelay
 from graficaciones.graficar_hora_delay2 import graficarHoraDelay2
 from graficaciones.graficar_hora_delay3 import graficarHoraDelay3
+from graficaciones.graficar_hora_delay4 import graficarHoraDelay4
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -99,11 +100,13 @@ def menu(airport_1, airport_2 = None):
 
     elif granularity == 4:
       #graficarHoraDelay(directory_1, airport_1, delay_filter, data)
-      op = raw_input("¿De a 1 mes o varios juntos? (1/v) ")
+      op = raw_input("¿De a 1 mes, de a 3 meses, o varios años? (1/3/v) ")
       if op == '1':
         graficarHoraDelay2(directory_1, airport_1, '2005', delay_filter, data)
-      else:
+      elif op == '3':
         graficarHoraDelay3(directory_1, airport_1, '2005', delay_filter, data)
+      elif op == 'v':
+        graficarHoraDelay4(directory_1, airport_1, '2005', delay_filter, data)
 
 
 def main():

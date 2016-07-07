@@ -435,7 +435,7 @@ def graficarHoraDelay2(directory, airport, an, delay_filter, data):
     for i in range(0, len(valsX)):
       valsEstimacion.append(func(i, param[0], param[1]))
 
-    #plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='g')    
+    plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='g')    
 
     plt.legend()
     plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
