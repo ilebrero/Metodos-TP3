@@ -38,6 +38,8 @@ def readFile(File, anio, filtro_anio, data, d_filter):
 
   vuelos_por_dia =        [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)] #arreglo de dimensión 24(horas)*31(días)*12(meses)
   vuelos_por_dia_filtro = [[[0 for k in range(0, 24)] for i in range(0, 31)] for j in range(0, 12)]
+  meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+  
 
   with open(File, 'r') as file_:
     for line in file_:

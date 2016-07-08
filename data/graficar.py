@@ -14,6 +14,7 @@ from graficaciones.graficar_hora_delay import graficarHoraDelay
 from graficaciones.graficar_hora_delay2 import graficarHoraDelay2
 from graficaciones.graficar_hora_delay3 import graficarHoraDelay3
 from graficaciones.graficar_hora_delay4 import graficarHoraDelay4
+from graficaciones.graficar_posta import graficarPosta
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -104,7 +105,8 @@ def menu(airport_1, airport_2 = None):
       if op == '1':
         graficarHoraDelay2(directory_1, airport_1, '2005', delay_filter, data)
       elif op == '3':
-        graficarHoraDelay3(directory_1, airport_1, '2005', delay_filter, data)
+        #graficarHoraDelay3(directory_1, airport_1, '2005', delay_filter, data)
+        graficarPosta(directory_1, airport_1, '2005', delay_filter, data)
       elif op == 'v':
         graficarHoraDelay4(directory_1, airport_1, '2005', delay_filter, data)
 
