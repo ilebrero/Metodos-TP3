@@ -6,11 +6,43 @@ from graficaciones.graficar_cuadrados_minimos import calcularCML
 import matplotlib.pyplot as plt
 from math import log
 import os
+from numpy import prod
+
+#def factorial(n):
+#  res = 1
+#  for i in range(1, n+1):
+#    res *= i
+#  return res
 
 #para CML: función utilizada para aproximar
-def func(x, b, c, d):
+def func(x, a, b, c, d, e, f, g, h, i):
   #return b*np.abs(np.sin(0.5*np.pi*x)) + c*np.abs(np.cos(x))
-  return b*x*x*x + c*x*x + d*np.abs(np.sin(0.5*np.pi*x))
+  #return b*np.abs(np.cos(15*x)) + c*np.abs(np.sin(15*x)) 
+  #return np.abs(b*x*x*x + c*x*x + d*x + e)
+  #return b*x*x + c*x + d + a*np.cos(x) + e*np.cos(2.0*x)
+  #return b*x*x + c*x + d + a*np.abs(np.cos(x)) + e*np.abs(np.sin(x)) 
+  #return b*x + c
+  #return a*x*x + b*x + c
+  #return a*x*x*x + b*x*x + c*x + d
+  #return e*x*x*x*x + a*x*x*x + b*x*x + c*x + d
+  #return a*np.abs(np.cos(x)) + b*np.abs(np.sin(x)) + c*x + d + e
+  #return a*np.abs(np.cos(x)) + c*x + d + e + b
+  #return a*np.abs(np.cos(x)) + c*np.abs(np.cos(2*x))+ b*np.exp(x) + d 
+  #return a*x*x*(x-2)*(x-1)*x + b*x*(x-2)*(x-1)*x + c*(x-2)*(x-1)*x + d*(x-1)*x + e*x + f*np.cos(x) + g
+  #return i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g
+  return a*np.abs(np.cos(15*x)) + b 
+  #return a*np.sin(x)*x*x*x + b*np.sin(x)*x*x + c*x + d
+
+def errorCuadraticoMedio(valsY, valsEstimacion):
+  error = [valsY[i] - valsEstimacion[i] for i in range(0, len(valsY))]
+
+  res = 0
+  for num in error:
+    res += num*num 
+
+  res /= float(len(valsY))
+
+  return res
 
 #def func(x, a, b):
  # return a*np.sin(x()) + b
@@ -360,8 +392,8 @@ def graficarPostaIntervalos(directory, airport, an, delay_filter, data):
 
 
   #for j in range(0, 12):
-  #for j in range(0, 4):
-  for j in range(1, 2):
+  for j in range(0, 4):
+  #for j in range(1, 2):
 
     #inicializo arreglos para CML
     valsX = []
@@ -793,12 +825,35 @@ def graficarPostaIntervalos(directory, airport, an, delay_filter, data):
     #plt.xticks([9+18*z for z in range(0, 3*(ultimo_anio - primer_anio + 1)*7)],labels,fontsize=10)
 
     #CML
+    #valsEstimacion = []
+    #inicio = 0
+    #fin = 15
+
+    #param = []
+    #for z in range(0, 7):
+    #  param.append(calcularCML(valsX[z*15 : z*15+15], valsY[z*15 : z*15+15], func))
+
+    #print param
+    #for i in range(0, len(valsX)):
+    #  dia = i % 105 / 15
+    #  valsEstimacion.append(func(i % 105, param[dia][0], param[dia][1], param[dia][2], param[dia][3], param[dia][4], param[dia][5], param[dia][6], param[dia][7], param[dia][8])) #, param[dia][2])) #, param[dia][3]))
+
+    #plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color = 'w')#color='#602312')
+
+    #error = errorCuadraticoMedio(valsY, valsEstimacion)
+    #with open('hare.tex', 'a') as file_write:
+    #  file_write.write(str(error) + '\n')
+
     valsEstimacion = []
     param = calcularCML(valsX, valsY, func)
     for i in range(0, len(valsX)):
-      valsEstimacion.append(func(i, param[0], param[1], param[2]))
+      valsEstimacion.append(func(i, param [0], param [1], param [2], param [3], param [4], param [5], param [6], param [7], param [8])) #, param [2])) #, param [3]))
 
     plt.plot(valsX, valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='#602312')
+
+    error = errorCuadraticoMedio(valsY, valsEstimacion)
+    with open('hare2.tex', 'a') as file_write:
+      file_write.write(str(error) + '\n')
 
     plt.legend(bbox_to_anchor=(0.96, 1), prop={'size': 10})
     #plt.savefig(directory + '/graficos/grafico_cantidad_delay_hora')
