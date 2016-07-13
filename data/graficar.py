@@ -17,6 +17,7 @@ from graficaciones.graficar_hora_delay4 import graficarHoraDelay4
 from graficaciones.graficar_posta import graficarPosta
 from graficaciones.graficar_posta_intervalos import graficarPostaIntervalos
 from graficaciones.graficar_semana_vuelos import graficarSemanaVuelos
+from graficaciones.graficar_mes_vuelos import graficarMesVuelos
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -115,7 +116,11 @@ def menu(airport_1, airport_2 = None):
         graficarHoraDelay4(directory_1, airport_1, '2005', delay_filter, data)
 
   elif data == 22:
+    if granularity == 1:
+      print directory_1
       graficarSemanaVuelos(directory_1, airport_1, '')
+    else:
+      graficarMesVuelos(directory_1, airport_1, '')
 
 
 
