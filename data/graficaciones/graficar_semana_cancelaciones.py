@@ -81,12 +81,12 @@ def graficarSemanaCancelaciones(directory, airport, cancelation_code):
 
   file_out = directory + '/' + airport
 
-  readFile(file_out + '1998.csv', cancelaciones_1998, cancelaciones_filtro_1998, cancelation_code)
-  readFile(file_out + '1999.csv', cancelaciones_1999, cancelaciones_filtro_1999, cancelation_code)
-  readFile(file_out + '2000.csv', cancelaciones_2000, cancelaciones_filtro_2000, cancelation_code)
-  readFile(file_out + '2001.csv', cancelaciones_2001, cancelaciones_filtro_2001, cancelation_code)
-  readFile(file_out + '2002.csv', cancelaciones_2002, cancelaciones_filtro_2002, cancelation_code)
-  readFile(file_out + '2003.csv', cancelaciones_2003, cancelaciones_filtro_2003, cancelation_code)
+#readFile(file_out + '1998.csv', cancelaciones_1998, cancelaciones_filtro_1998, cancelation_code)
+# readFile(file_out + '1999.csv', cancelaciones_1999, cancelaciones_filtro_1999, cancelation_code)
+# readFile(file_out + '2000.csv', cancelaciones_2000, cancelaciones_filtro_2000, cancelation_code)
+# readFile(file_out + '2001.csv', cancelaciones_2001, cancelaciones_filtro_2001, cancelation_code)
+# readFile(file_out + '2002.csv', cancelaciones_2002, cancelaciones_filtro_2002, cancelation_code)
+# readFile(file_out + '2003.csv', cancelaciones_2003, cancelaciones_filtro_2003, cancelation_code)
   readFile(file_out + '2004.csv', cancelaciones_2004, cancelaciones_filtro_2004, cancelation_code)
   readFile(file_out + '2005.csv', cancelaciones_2005, cancelaciones_filtro_2005, cancelation_code)
   readFile(file_out + '2006.csv', cancelaciones_2006, cancelaciones_filtro_2006, cancelation_code)
@@ -98,21 +98,19 @@ def graficarSemanaCancelaciones(directory, airport, cancelation_code):
   x = []
   y = []
 
-  len_x = years * 12 * 2
+  len_x = years * 12 * 2 *2
 
   for i in range (1,len_x+1):
     x.append(i)
 
-  len_y = (years) * 12 * 2
+  len_y = (years) * 12 * 2 * 2
 
   for i in range (1,len_y+1):
     y.append(i)
 
-  cancelaciones = cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
+#cancelaciones = cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
   cancelaciones_filtro = cancelaciones_filtro_2004 + cancelaciones_filtro_2005 + cancelaciones_filtro_2006 + cancelaciones_filtro_2007 + cancelaciones_filtro_2008
 
-  canc = [(cancelaciones[2*i] + cancelaciones[2*i+1]) / 2.0 for i in range(0, len(cancelaciones)/2)]
-  canc_filtro = [(cancelaciones_filtro[2*i] + cancelaciones_filtro[2*i+1]) / 2.0 for i in range(0, len(cancelaciones_filtro)/2)]
 
   if not os.path.exists(directory + '/graficos'):
     os.mkdir(directory + '/graficos')
@@ -120,53 +118,38 @@ def graficarSemanaCancelaciones(directory, airport, cancelation_code):
   opacity = 0.4
 
 # Debería haber cantidad de años-1 
-  for i in range(1, years):
-    plt.axvline(x=12*2*i, linewidth=2, color='k')
-
-  plt.plot(x, canc, 'ro', 
-           alpha=opacity,
-           linestyle='-',
-           color='b',
-           label=u"Cancelaciones por quincena")
-
-  plt.xlabel(u"Quincenas")
-  plt.ylabel(u"Cantidad de cancelaciones")
-  plt.xticks([12+12*i*2 for i in range(0,5)],['2004', '2005', '2006', '2007', '2008'],fontsize=10)
-  plt.legend()
-  plt.savefig(directory + '/graficos/grafico_cancelaciones_quincena')
-  plt.show()
 
   if cancelation_code != '':
     lab = ''
     fig = ''
     if cancelation_code == 'A':
-      lab = "Cancelaciones de carrier por quincena"
-      fig = directory + '/graficos/grafico_cancelaciones_carrier_quincena'
+      lab = "Cancelaciones de carrier por semana"
+      fig = directory + '/graficos/grafico_cancelaciones_carrier_semana'
 
     if cancelation_code == 'B':
-      lab = "Cancelaciones de clima por quincena"
-      fig = directory + '/graficos/grafico_cancelaciones_clima_quincena'
+      lab = "Cancelaciones de clima por semana"
+      fig = directory + '/graficos/grafico_cancelaciones_clima_semana'
 
     if cancelation_code == 'C':
-      lab = "Cancelaciones de NAS por quincena"
-      fig = directory + '/graficos/grafico_cancelaciones_NAS_quincena'
+      lab = "Cancelaciones de NAS por semana"
+      fig = directory + '/graficos/grafico_cancelaciones_NAS_semana'
 
     if cancelation_code == 'D':
-      lab = "Cancelaciones de seguridad por quincena"
-      fig = directory + '/graficos/grafico_cancelaciones_seguridad_quincena'
+      lab = "Cancelaciones de seguridad por semana"
+      fig = directory + '/graficos/grafico_cancelaciones_seguridad_semana'
 
     for i in range(1, years):
-      plt.axvline(x=12*2*i, linewidth=2, color='k')
+      plt.axvline(x=24*2*i, linewidth=2, color='k')
 
-    plt.plot(y, canc_filtro, 'ro', 
+    plt.plot(y, cancelaciones_filtro, 'ro', 
              alpha=opacity,
              linestyle='-',
              color='b',
              label=lab)
 
-    plt.xlabel(u"Quincenas")
+    plt.xlabel(u"Semanas")
     plt.ylabel(u"Cantidad de cancelaciones")
-    plt.xticks([12+12*i*2 for i in range(0,5)],['2004', '2005', '2006', '2007', '2008'],fontsize=10)
+    plt.xticks([24+48*i for i in range(0,5)],['2004', '2005', '2006', '2007', '2008'],fontsize=10)
     plt.legend()
     plt.savefig(fig)
     plt.show()

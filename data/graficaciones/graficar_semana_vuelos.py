@@ -9,7 +9,7 @@ import os
 
 def func(x, a, b, c, d, e, f, g, h, i, j, k):
   #return b*np.abs(np.sin(0.5*np.pi*x)) + c*np.abs(np.cos(x))
-  return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + e*x
+  #return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + e*x
   #return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + e*np.cos(x)
   #return np.abs(b*x*x*x + c*x*x + d*x + e)
   #return b*x*x + c*x + d + a*np.cos(x) + e*np.cos(2.0*x)
@@ -22,8 +22,11 @@ def func(x, a, b, c, d, e, f, g, h, i, j, k):
   #return a*np.abs(np.cos(x)) + c*x + d + e + b
   #return a*np.abs(np.cos(x)) + c*np.abs(np.cos(2*x))+ b*np.exp(x) + d 
   #return a*x*x*(x-2)*(x-1)*x + b*x*(x-2)*(x-1)*x + c*(x-2)*(x-1)*x + d*(x-1)*x + e*x + f*np.cos(x) + g
-  #return k*x*x*x*x*x*x*x*x*x*x + j*x*x*x*x*x*x*x*x*x + i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
-  #return  i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
+
+#return  e*x + g + 350*(np.cos(8*x)) + 350*(np.sin(8*x)) + a*np.log(x+1)
+#return  d*x*x + e*x + g + 300*(np.cos(48*x)) + (np.sin(x)) + 10*np.log(x+1)
+  return 300*np.cos(x) + np.sin(x) + b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + g*x + h
+#return  i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
   #return i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + 300*np.sin(x)
   #return a*np.abs(np.cos(15*x)) + b 
   #return a*np.sin(x)*x*x*x + b*np.sin(2*x)*x*x +  d * x
@@ -123,9 +126,12 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   readFile(file_out + '2003.csv', cancelaciones_2003, cancelaciones_filtro_2003, cancelation_code)
   readFile(file_out + '2004.csv', cancelaciones_2004, cancelaciones_filtro_2004, cancelation_code)
   readFile(file_out + '2005.csv', cancelaciones_2005, cancelaciones_filtro_2005, cancelation_code)
-  readFile(file_out + '2006.csv', cancelaciones_2006, cancelaciones_filtro_2006, cancelation_code)
-  readFile(file_out + '2007.csv', cancelaciones_2007, cancelaciones_filtro_2007, cancelation_code)
-  readFile(file_out + '2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
+#readFile(file_out + '2006.csv', cancelaciones_2006, cancelaciones_filtro_2006, cancelation_code)
+  readFile('SFO/' + 'SFO2006.csv', cancelaciones_2006, cancelaciones_filtro_2006, cancelation_code)
+#readFile(file_out + '2007.csv', cancelaciones_2007, cancelaciones_filtro_2007, cancelation_code)
+  readFile('SFO/' + 'SFO2007.csv', cancelaciones_2007, cancelaciones_filtro_2007, cancelation_code)
+#readFile(file_out + '2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
+  readFile('SFO/' + 'SFO2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
 
   s_2002 = dameMinimo(cancelaciones_2002)
   s_2003 = dameMinimo(cancelaciones_2003)
@@ -145,6 +151,7 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
 
   #years = 11
   years = 6
+#years = 5
   x = []
   y = []
 
@@ -162,8 +169,9 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   #cancelaciones = cancelaciones_1998 + cancelaciones_1999 + cancelaciones_2000 + cancelaciones_2001 + cancelaciones_2002 + cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
   #cancelaciones_filtro = cancelaciones_filtro_1998 + cancelaciones_filtro_1999 + cancelaciones_filtro_2000 + cancelaciones_filtro_2001 + cancelaciones_filtro_2002 + cancelaciones_filtro_2003 + cancelaciones_filtro_2004 + cancelaciones_filtro_2005 + cancelaciones_filtro_2006 + cancelaciones_filtro_2007 + cancelaciones_filtro_2008
 
-  if not os.path.exists(directory + '/graficos'):
-    os.mkdir(directory + '/graficos')
+  carpeta = '/graficos_JKF_SFO'
+  if not os.path.exists(directory + carpeta):
+    os.mkdir(directory + carpeta)
 
   opacity = 0.4
 
@@ -182,7 +190,12 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
 
   ################## CML EMPIEZA
   valsEstimacion = []
-  inicio = 240 
+  #un año tiene 48 semanas
+  
+  #Con cuántos años entrenar
+  anios_a_entrenar = 3
+
+  inicio = anios_a_entrenar * 48 
   fin = 288
   param = calcularCML(x[0 : inicio], cancelaciones[0 : inicio], func)
   #param = calcularCML(x[0 : fin], cancelaciones[0 : fin], func)
@@ -192,8 +205,8 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   plt.plot(x[0 : inicio], valsEstimacion[0 : inicio], 'ro', alpha=opacity, linestyle='-', color='r')
   plt.plot(x[inicio : fin], valsEstimacion[inicio : fin], 'ro', alpha=opacity, linestyle='-', color='#602312')
 
-  error = errorCuadraticoMedio(cancelaciones[inicio : fin], valsEstimacion)
-  with open(airport + 'polGrande.tex', 'a') as file_write:
+  error = errorCuadraticoMedio(cancelaciones[inicio : fin], valsEstimacion[inicio : fin])
+  with open(airport + 'cuadLog_' + str(anios_a_entrenar) + '_2008' + '.tex', 'a') as file_write:
     file_write.write(str(error) + '\n')
 
   ################## CML TERMINA
@@ -204,7 +217,7 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   plt.xticks([24+48*i for i in range(0,years)],['2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   #plt.xticks([24+48*i for i in range(0,years)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   plt.legend(bbox_to_anchor=(0.33, 1), prop={'size': 10})
-  plt.savefig(directory + '/graficos/grafico_vuelos_semana_' + airport + '_estimacion_2')
+  plt.savefig(directory + carpeta + '/grafico_vuelos_semana_' + airport + '_estimacion_con_' + str(anios_a_entrenar) + '_2008')
   plt.show()
 
 if __name__ == "__main__":
