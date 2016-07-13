@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-import scipy.optimize as optimization
+#sudo pip install scipy
 import matplotlib.pyplot as plt
 import numpy
 import os

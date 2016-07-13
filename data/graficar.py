@@ -12,6 +12,14 @@ from graficaciones.graficar_mes_delay import graficarMesDelay
 from graficaciones.graficar_mes_delay2 import graficarMesDelay2
 from graficaciones.graficar_semana_delay import graficarSemanaDelay
 from graficaciones.graficar_semana_delay2 import graficarSemanaDelay2
+from graficaciones.graficar_hora_delay import graficarHoraDelay
+from graficaciones.graficar_hora_delay2 import graficarHoraDelay2
+from graficaciones.graficar_hora_delay3 import graficarHoraDelay3
+from graficaciones.graficar_hora_delay4 import graficarHoraDelay4
+from graficaciones.graficar_posta import graficarPosta
+from graficaciones.graficar_posta_intervalos import graficarPostaIntervalos
+from graficaciones.graficar_semana_vuelos import graficarSemanaVuelos
+from graficaciones.graficar_mes_vuelos import graficarMesVuelos
 import os
 
 def menu(airport_1, airport_2 = None):
@@ -33,6 +41,7 @@ def menu(airport_1, airport_2 = None):
   print "16: Delay de llegada y salida "
   #print "18: Distancia " 
   print "21: Cancelaciónes " 
+  print "22: Cantidad de vuelos " 
   data = int(raw_input("Ingrese un número: "))
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -61,6 +70,8 @@ def menu(airport_1, airport_2 = None):
   print "1: Semana por año" 
   print "2: Día del mes" 
   print "3: Día de la semana" 
+  print "4: Hora" 
+  print "5: Ninguno de los anteriores" 
   granularity = int(raw_input("Ingrese un número: "))
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -105,6 +116,27 @@ def menu(airport_1, airport_2 = None):
         graficarSemanaDelay(directory_1, airport_1, delay_filter, data)
       else:
         graficarSemanaDelay2(directory_1, directory_2, directory_both, airport_1, airport_2, delay_filter, data)
+
+    elif granularity == 4:
+      #graficarHoraDelay(directory_1, airport_1, delay_filter, data)
+      op = raw_input("¿De a 1 mes, de a 3 meses, o varios años? (1/3/v) ")
+      if op == '1':
+        graficarHoraDelay2(directory_1, airport_1, '2005', delay_filter, data)
+      elif op == '3':
+        #graficarHoraDelay3(directory_1, airport_1, '2005', delay_filter, data)
+        graficarPostaIntervalos(directory_1, airport_1, '2005', delay_filter, data)
+      elif op == 'v':
+        graficarHoraDelay4(directory_1, airport_1, '2005', delay_filter, data)
+
+  elif data == 22:
+    if granularity == 1:
+      print directory_1
+      graficarSemanaVuelos(directory_1, airport_1, '')
+    else:
+      graficarMesVuelos(directory_1, airport_1, '')
+
+
+
 
 def main():
 
