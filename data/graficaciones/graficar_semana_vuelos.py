@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 from math import log
 import os
 
-def func(x, a, b, c, d, e, f, g, h, i):
+def func(x, a, b, c, d, e, f, g, h, i, j, k):
   #return b*np.abs(np.sin(0.5*np.pi*x)) + c*np.abs(np.cos(x))
-  return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x))
+  return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + e*x
   #return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + e*np.cos(x)
   #return np.abs(b*x*x*x + c*x*x + d*x + e)
   #return b*x*x + c*x + d + a*np.cos(x) + e*np.cos(2.0*x)
@@ -22,7 +22,8 @@ def func(x, a, b, c, d, e, f, g, h, i):
   #return a*np.abs(np.cos(x)) + c*x + d + e + b
   #return a*np.abs(np.cos(x)) + c*np.abs(np.cos(2*x))+ b*np.exp(x) + d 
   #return a*x*x*(x-2)*(x-1)*x + b*x*(x-2)*(x-1)*x + c*(x-2)*(x-1)*x + d*(x-1)*x + e*x + f*np.cos(x) + g
-  #return i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
+  #return k*x*x*x*x*x*x*x*x*x*x + j*x*x*x*x*x*x*x*x*x + i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
+  #return  i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + np.sin(x)
   #return i*x*x*x*x*x*x*x*x + h*x*x*x*x*x*x*x + f*x*x*x*x*x*x + a*x*x*x*x*x + b*x*x*x*x + c*x*x*x + d*x*x + e*x + g + 300*np.cos(x) + 300*np.sin(x)
   #return a*np.abs(np.cos(15*x)) + b 
   #return a*np.sin(x)*x*x*x + b*np.sin(2*x)*x*x +  d * x
@@ -181,16 +182,18 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
 
   ################## CML EMPIEZA
   valsEstimacion = []
-  inicio = 48
-  fin = 240
+  inicio = 240 
+  fin = 288
   param = calcularCML(x[0 : inicio], cancelaciones[0 : inicio], func)
-  for i in range(inicio, fin):
-    valsEstimacion.append(func(i, param [0], param [1], param [2], param [3], param [4], param [5], param [6], param [7], param [8])) #, param [2])) #, param [3]))
+  #param = calcularCML(x[0 : fin], cancelaciones[0 : fin], func)
+  for i in range(0, fin):
+    valsEstimacion.append(func(i, param [0], param [1], param [2], param [3], param [4], param [5], param [6], param [7], param [8], param[9], param[10])) #, param [2])) #, param [3]))
 
-  plt.plot(x[inicio : fin], valsEstimacion, 'ro', alpha=opacity, linestyle='-', color='#602312')
+  plt.plot(x[0 : inicio], valsEstimacion[0 : inicio], 'ro', alpha=opacity, linestyle='-', color='r')
+  plt.plot(x[inicio : fin], valsEstimacion[inicio : fin], 'ro', alpha=opacity, linestyle='-', color='#602312')
 
   error = errorCuadraticoMedio(cancelaciones[inicio : fin], valsEstimacion)
-  with open('hare2.tex', 'a') as file_write:
+  with open(airport + 'polGrande.tex', 'a') as file_write:
     file_write.write(str(error) + '\n')
 
   ################## CML TERMINA
@@ -201,7 +204,7 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   plt.xticks([24+48*i for i in range(0,years)],['2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   #plt.xticks([24+48*i for i in range(0,years)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   plt.legend(bbox_to_anchor=(0.33, 1), prop={'size': 10})
-  plt.savefig(directory + '/graficos/grafico_vuelos_semana_' + airport + '_estimacion')
+  plt.savefig(directory + '/graficos/grafico_vuelos_semana_' + airport + '_estimacion_2')
   plt.show()
 
 if __name__ == "__main__":
