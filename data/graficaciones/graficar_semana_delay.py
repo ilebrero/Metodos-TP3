@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from graficaciones.graficar_cuadrados_minimos import calcularCML
 import matplotlib.pyplot as plt
 from math import log
 import os
@@ -122,6 +123,14 @@ def graficarSemanaDelay(directory, airport, delay_filter, data):
            linestyle='-',
            color='b',
            label=u"Cantidad de delay por semana")
+
+  param = calcularCML(x, cant_delays)
+  for i in range(0, len(cant_delays)):
+    plt.plot(i, param[0] + i * param[1] + i * i * param[2], 'ro', 
+      alpha=opacity,
+      linestyle='-',
+      color='g'
+    )
 
   plt.xlabel(u"Semanas")
   plt.ylabel(u"Cantidad de delays")

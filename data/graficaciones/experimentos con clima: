@@ -1,0 +1,40 @@
+experimentos con clima:
+	- delays en las estaciones del año
+	- cancelaciones
+	- desvios
+	- tiempo en aire vs (tiempo de llegada - tiempo de salida)
+
+
+cosas para hacer:
+	- levantar datos de al menos 4 aeropuertos √
+	- levantar los datos a archivos x semana de cada aeropuerto
+	- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fechas:
+	junio -> vacaciones de verano
+	diciembre -> vacaciones de invierno y mal clima
+	Ene - Marzo -> mal clima
+
+	p timepo vs p tiempo
+	p timepo vs p delay
+	p delay vs p tiempo
+	diverted
+	cancelados

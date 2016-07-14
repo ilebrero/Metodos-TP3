@@ -5,7 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import log
 from graficaciones.graficar_mes_cancelaciones import graficarMesCancelaciones
+from graficaciones.graficar_mes_cancelaciones2 import graficarMesCancelaciones2
 from graficaciones.graficar_semana_cancelaciones import graficarSemanaCancelaciones
+from graficaciones.graficar_semana_cancelaciones2 import graficarSemanaCancelaciones2
 from graficaciones.graficar_mes_delay import graficarMesDelay
 from graficaciones.graficar_mes_delay2 import graficarMesDelay2
 from graficaciones.graficar_semana_delay import graficarSemanaDelay
@@ -85,10 +87,21 @@ def menu(airport_1, airport_2 = None):
     elif delay_filter == 27:
       cancelation_code = 'D'
 
+    print ("granularity = " + str(granularity))
+    print directory_1
     if granularity == 0:
-      graficarMesCancelaciones(directory_1, airport_1, cancelation_code)
+      
+      if airport_2 == None:
+        graficarMesCancelaciones(directory_1, airport_1, cancelation_code)
+      else:
+        graficarMesCancelaciones2(directory_1, directory_2, airport_1, airport_2, cancelation_code)
+    
     elif granularity == 1:
-      graficarSemanaCancelaciones(directory_1, airport_1, cancelation_code)
+      
+      if airport_2 == None:
+        graficarSemanaCancelaciones(directory_1, airport_1, cancelation_code)
+      else:
+        graficarSemanaCancelaciones2(directory_1, directory_2, airport_1, airport_2, cancelation_code)
 
   elif data == 14 or data == 15 or data == 16: # Delay de salida
 

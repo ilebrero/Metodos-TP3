@@ -39,20 +39,20 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
 
 # Instancio los arreglos para los datos
 
-  cancelaciones_1998 = [0 for i in range(0,12)]
-  cancelaciones_filtro_1998 = [0 for i in range(0,12)]
+  #cancelaciones_1998 = [0 for i in range(0,12)]
+#  cancelaciones_filtro_1998 = [0 for i in range(0,12)]#
 
-  cancelaciones_1999 = [0 for i in range(0,12)]
-  cancelaciones_filtro_1999 = [0 for i in range(0,12)]
+#  cancelaciones_1999 = [0 for i in range(0,12)]
+#  cancelaciones_filtro_1999 = [0 for i in range(0,12)]#
 
-  cancelaciones_2000 = [0 for i in range(0,12)]
-  cancelaciones_filtro_2000 = [0 for i in range(0,12)]
+#  cancelaciones_2000 = [0 for i in range(0,12)]
+#  cancelaciones_filtro_2000 = [0 for i in range(0,12)]#
 
-  cancelaciones_2001 = [0 for i in range(0,12)]
-  cancelaciones_filtro_2001 = [0 for i in range(0,12)]
+#  cancelaciones_2001 = [0 for i in range(0,12)]
+#  cancelaciones_filtro_2001 = [0 for i in range(0,12)]#
 
-  cancelaciones_2002 = [0 for i in range(0,12)]
-  cancelaciones_filtro_2002 = [0 for i in range(0,12)]
+#  cancelaciones_2002 = [0 for i in range(0,12)]
+#  cancelaciones_filtro_2002 = [0 for i in range(0,12)]
 
   cancelaciones_2003 = [0 for i in range(0,12)]
   cancelaciones_filtro_2003 = [0 for i in range(0,12)]
@@ -74,11 +74,11 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
 
   file_out = directory + '/' + airport
 
-  readFile(file_out + '1998.csv', cancelaciones_1998, cancelaciones_filtro_1998, cancelation_code)
-  readFile(file_out + '1999.csv', cancelaciones_1999, cancelaciones_filtro_1999, cancelation_code)
-  readFile(file_out + '2000.csv', cancelaciones_2000, cancelaciones_filtro_2000, cancelation_code)
-  readFile(file_out + '2001.csv', cancelaciones_2001, cancelaciones_filtro_2001, cancelation_code)
-  readFile(file_out + '2002.csv', cancelaciones_2002, cancelaciones_filtro_2002, cancelation_code)
+#  readFile(file_out + '1998.csv', cancelaciones_1998, cancelaciones_filtro_1998, cancelation_code)
+#  readFile(file_out + '1999.csv', cancelaciones_1999, cancelaciones_filtro_1999, cancelation_code)
+#  readFile(file_out + '2000.csv', cancelaciones_2000, cancelaciones_filtro_2000, cancelation_code)
+#  readFile(file_out + '2001.csv', cancelaciones_2001, cancelaciones_filtro_2001, cancelation_code)
+#  readFile(file_out + '2002.csv', cancelaciones_2002, cancelaciones_filtro_2002, cancelation_code)
   readFile(file_out + '2003.csv', cancelaciones_2003, cancelaciones_filtro_2003, cancelation_code)
   readFile(file_out + '2004.csv', cancelaciones_2004, cancelaciones_filtro_2004, cancelation_code)
   readFile(file_out + '2005.csv', cancelaciones_2005, cancelaciones_filtro_2005, cancelation_code)
@@ -86,7 +86,7 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
   readFile(file_out + '2007.csv', cancelaciones_2007, cancelaciones_filtro_2007, cancelation_code)
   readFile(file_out + '2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
 
-  years = 11
+  years = 6
   x = []
   y = []
 
@@ -97,8 +97,8 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
       if i < years-3:
         y.append(j+12*i)
 
-  cancelaciones = cancelaciones_1998 + cancelaciones_1999 + cancelaciones_2000 + cancelaciones_2001 + cancelaciones_2002 + cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
-  cancelaciones_filtro = cancelaciones_filtro_2001 + cancelaciones_filtro_2002 + cancelaciones_filtro_2003 + cancelaciones_filtro_2004 + cancelaciones_filtro_2005 + cancelaciones_filtro_2006 + cancelaciones_filtro_2007 + cancelaciones_filtro_2008
+  cancelaciones = cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
+  cancelaciones_filtro = cancelaciones_filtro_2003 + cancelaciones_filtro_2004 + cancelaciones_filtro_2005 + cancelaciones_filtro_2006 + cancelaciones_filtro_2007 + cancelaciones_filtro_2008
 
   if not os.path.exists(directory + '/graficos'):
     os.mkdir(directory + '/graficos')
@@ -117,7 +117,7 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
 
   plt.xlabel(u"Meses")
   plt.ylabel(u"Cancelaciones")
-  plt.xticks([6+12*i for i in range(0,11)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
+  plt.xticks([6+12*i for i in range(0,11)],['2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
   plt.legend()
   plt.savefig(directory + '/graficos/grafico_cancelaciones_mes')
   plt.show()
@@ -152,7 +152,7 @@ def graficarMesCancelaciones(directory, airport, cancelation_code):
 
     plt.xlabel(u"Mes")
     plt.ylabel(u"Cancelaciones")
-    plt.xticks([6+12*i for i in range(0,8)],['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
+    plt.xticks([6+12*i for i in range(0,8)],['2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
     plt.legend()
     plt.savefig(fig)
     plt.show()
