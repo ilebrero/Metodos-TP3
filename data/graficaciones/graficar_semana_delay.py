@@ -6,25 +6,16 @@ import matplotlib.pyplot as plt
 from math import log
 import os
 
-def readFile(File, data_1, data_2, data_3, data_4, delay_filter, data, airport):
+def readFile(File, anio):
 
-  vuelos_por_semana = [0 for i in range(0, 48)]
-  vuelos_por_semana_filtro = [0 for i in range(0, 48)]
+  vuelos_por_dia = [[0 for i in range(0, 31)] for j in range(0, 12)]
 
   with open(File, 'r') as file_:
     for line in file_:
       currentline = line.split(",")
-      dia = int(currentline[2])
       mes = int(currentline[1]) - 1
-
-      if (1 <= dia <= 7):
-        semana = 0
-      elif (8 <= dia <= 15):
-        semana = 1
-      elif (16 <= dia <= 23):
-        semana = 2
-      elif (24 <= dia <= 31):
-        semana = 3
+      dia_del_mes = int(currentline[2]) - 1
+      dia_de_semana = int(currentline[3])
 
       if data == 16:
         
@@ -37,24 +28,18 @@ def readFile(File, data_1, data_2, data_3, data_4, delay_filter, data, airport):
         else:
           delay = currentline[14] # El delay es el de llegada
 
+      else:
+        delay = currentline[data]
+
+
         if (delay != 'NA'):
-          vuelos_por_semana[semana+4*mes] += 1 
+          vuelos_por_dia[mes][dia_del_mes] += 1 
 
         if (delay != 'NA' and int(delay) > 15):
 
-          data_1[semana+4*mes] += 1 # Cuento la cantidad de datos por mes
-          data_2[semana+4*mes] += int(delay)  # Sumo todos los datos del mes
-
-      else:
-
-        if (currentline[data] != 'NA'):
-          vuelos_por_semana[semana+4*mes] += 1 
-
-        if (currentline[data] != 'NA' and int(currentline[data]) > 15):
-          dep_delay = int(currentline[data])
-
-          data_1[semana+4*mes] += 1 # Cuento la cantidad de datos por mes
-          data_2[semana+4*mes] += dep_delay  # Sumo todos los datos del mes
+          anio[mes][dia_del_mes][0] += 1 # Cuento la cantidad de datos por mes
+          anio[mes][dia_del_mes][1] += int(delay)  # Sumo todos los datos del mes
+          anio[mes][dia_del_mes][2] += dia_de_semana  # Guardo el dia de semana para el grafico
 
       if (currentline[delay_filter] != 'NA'):
         vuelos_por_semana_filtro[semana+4*mes] += 1 
@@ -85,60 +70,7 @@ def graficarSemanaDelay(directory, airport, delay_filter, data):
 
 # Instancio los arreglos para los datos
 
-  delays_1998 = [0 for i in range(0, 48)]
-  cant_delays_1998 = [0 for i in range(0,48)]
-  delays_filter_1998 = [0 for i in range(0, 48)]
-  cant_delays_filter_1998 = [0 for i in range(0,48)]
-
-  delays_1999 = [0 for i in range(0, 48)]
-  cant_delays_1999 = [0 for i in range(0,48)]
-  delays_filter_1999 = [0 for i in range(0, 48)]
-  cant_delays_filter_1999 = [0 for i in range(0,48)]
-
-  delays_2000 = [0 for i in range(0, 48)]
-  cant_delays_2000 = [0 for i in range(0,48)]
-  delays_filter_2000 = [0 for i in range(0, 48)]
-  cant_delays_filter_2000 = [0 for i in range(0,48)]
-
-  delays_2001 = [0 for i in range(0, 48)]
-  cant_delays_2001 = [0 for i in range(0,48)]
-  delays_filter_2001 = [0 for i in range(0, 48)]
-  cant_delays_filter_2001 = [0 for i in range(0,48)]
-
-  delays_2002 = [0 for i in range(0, 48)]
-  cant_delays_2002 = [0 for i in range(0,48)]
-  delays_filter_2002 = [0 for i in range(0, 48)]
-  cant_delays_filter_2002 = [0 for i in range(0,48)]
-
-  delays_2003 = [0 for i in range(0, 48)]
-  cant_delays_2003 = [0 for i in range(0,48)]
-  delays_filter_2003 = [0 for i in range(0, 48)]
-  cant_delays_filter_2003 = [0 for i in range(0,48)]
-
-  delays_2004 = [0 for i in range(0, 48)]
-  cant_delays_2004 = [0 for i in range(0,48)]
-  delays_filter_2004 = [0 for i in range(0, 48)]
-  cant_delays_filter_2004 = [0 for i in range(0,48)]
-
-  delays_2005 = [0 for i in range(0, 48)]
-  cant_delays_2005 = [0 for i in range(0,48)]
-  delays_filter_2005 = [0 for i in range(0, 48)]
-  cant_delays_filter_2005 = [0 for i in range(0,48)]
-
-  delays_2006 = [0 for i in range(0, 48)]
-  cant_delays_2006 = [0 for i in range(0,48)]
-  delays_filter_2006 = [0 for i in range(0, 48)]
-  cant_delays_filter_2006 = [0 for i in range(0,48)]
-
-  delays_2007 = [0 for i in range(0, 48)]
-  cant_delays_2007 = [0 for i in range(0,48)]
-  delays_filter_2007 = [0 for i in range(0, 48)]
-  cant_delays_filter_2007 = [0 for i in range(0,48)]
-
-  delays_2008 = [0 for i in range(0, 48)]
-  cant_delays_2008 = [0 for i in range(0,48)]
-  delays_filter_2008 = [0 for i in range(0, 48)]
-  cant_delays_filter_2008 = [0 for i in range(0,48)]
+  anio = [[[0, 0, 0] for i in range(0, 31)] for j in range(0, 13)]
 
   file_out = directory + '/' + airport
   print file_out
@@ -181,7 +113,7 @@ def graficarSemanaDelay(directory, airport, delay_filter, data):
 
   opacity = 0.4
 
-# Debería haber cantidad de años-1 
+# Debería haber cantidad de anios-1 
   for i in range(1, years):
     plt.axvline(x=12*4*i, linewidth=2, color='k')
 

@@ -9,7 +9,8 @@ import os
 
 def func(x, a, b, c, d, e, f, g, h, i, j, k):
   #return b*np.abs(np.sin(0.5*np.pi*x)) + c*np.abs(np.cos(x))
-  return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + e*x
+  return 300*np.cos(x) + np.sin(x) + b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + d*np.log(x+1) + g*x + h
+  #return  b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) +  h*np.log(x+1) + e*x 
   #return b*np.abs(np.cos(x)) + c*np.abs(np.sin(x)) + e*np.cos(x)
   #return np.abs(b*x*x*x + c*x*x + d*x + e)
   #return b*x*x + c*x + d + a*np.cos(x) + e*np.cos(2.0*x)
@@ -125,7 +126,7 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   readFile(file_out + '2005.csv', cancelaciones_2005, cancelaciones_filtro_2005, cancelation_code)
   readFile(file_out + '2006.csv', cancelaciones_2006, cancelaciones_filtro_2006, cancelation_code)
   readFile(file_out + '2007.csv', cancelaciones_2007, cancelaciones_filtro_2007, cancelation_code)
-  readFile(file_out + '2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
+  #readFile(file_out + '2008.csv', cancelaciones_2008, cancelaciones_filtro_2008, cancelation_code)
 
   s_2002 = dameMinimo(cancelaciones_2002)
   s_2003 = dameMinimo(cancelaciones_2003)
@@ -144,7 +145,7 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   print s_2008
 
   #years = 11
-  years = 6
+  years = 5
   x = []
   y = []
 
@@ -158,7 +159,8 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   for i in range (1,len_y+1):
     y.append(i)
 
-  cancelaciones = cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
+  cancelaciones = cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007
+  #cancelaciones = cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
   #cancelaciones = cancelaciones_1998 + cancelaciones_1999 + cancelaciones_2000 + cancelaciones_2001 + cancelaciones_2002 + cancelaciones_2003 + cancelaciones_2004 + cancelaciones_2005 + cancelaciones_2006 + cancelaciones_2007 + cancelaciones_2008
   #cancelaciones_filtro = cancelaciones_filtro_1998 + cancelaciones_filtro_1999 + cancelaciones_filtro_2000 + cancelaciones_filtro_2001 + cancelaciones_filtro_2002 + cancelaciones_filtro_2003 + cancelaciones_filtro_2004 + cancelaciones_filtro_2005 + cancelaciones_filtro_2006 + cancelaciones_filtro_2007 + cancelaciones_filtro_2008
 
@@ -182,8 +184,9 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
 
   ################## CML EMPIEZA
   valsEstimacion = []
-  inicio = 240 
-  fin = 288
+  anios_a_estimar = 1
+  inicio = 240 - 48 * anios_a_estimar 
+  fin = 240
   param = calcularCML(x[0 : inicio], cancelaciones[0 : inicio], func)
   #param = calcularCML(x[0 : fin], cancelaciones[0 : fin], func)
   for i in range(0, fin):
@@ -192,8 +195,8 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   plt.plot(x[0 : inicio], valsEstimacion[0 : inicio], 'ro', alpha=opacity, linestyle='-', color='r')
   plt.plot(x[inicio : fin], valsEstimacion[inicio : fin], 'ro', alpha=opacity, linestyle='-', color='#602312')
 
-  error = errorCuadraticoMedio(cancelaciones[inicio : fin], valsEstimacion)
-  with open(airport + 'polGrande.tex', 'a') as file_write:
+  error = errorCuadraticoMedio(cancelaciones[inicio : fin], valsEstimacion[inicio : fin])
+  with open(airport + 'ssssegundolog' + str(anios_a_estimar) + '.tex', 'a') as file_write:
     file_write.write(str(error) + '\n')
 
   ################## CML TERMINA
@@ -201,10 +204,10 @@ def graficarSemanaVuelos(directory, airport, cancelation_code):
   plt.xlabel(u"Semana")
   plt.ylabel(u"Cantidad de vuelos")
   #plt.xticks([24+48*i for i in range(0,years)],['2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
-  plt.xticks([24+48*i for i in range(0,years)],['2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
+  plt.xticks([24+48*i for i in range(0,years)],['2003', '2004', '2005', '2006', '2007'],fontsize=10)
   #plt.xticks([24+48*i for i in range(0,years)],['1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008'],fontsize=10)
-  plt.legend(bbox_to_anchor=(0.33, 1), prop={'size': 10})
-  plt.savefig(directory + '/graficos/grafico_vuelos_semana_' + airport + '_estimacion_2')
+  plt.legend(bbox_to_anchor=(0.32, 1), prop={'size': 10})
+  plt.savefig(directory + '/graficos/grafico_vuelos_semana_' + airport + 'anio' + str(anios_a_estimar))
   plt.show()
 
 if __name__ == "__main__":
