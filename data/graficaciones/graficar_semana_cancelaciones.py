@@ -17,11 +17,11 @@ def func3(x, b, c): #0.0230515984338
 def func2(x, a, b, c, d): #0.0258012692494
   return c*np.abs(np.cos(x)) + b + a*x + d
 
-def func2(x, b, c): #0.0382813604542
-  return c*np.sin(x) + b
+#def func2(x, b, c): #0.0382813604542
+#  return c*np.sin(x) + b
 
 def func(x, a, b, c):
-  return c*(np.abs(np.cos(x*12))) + a*np.abs(np.sin(12*x))
+  return c*(np.abs(np.cos(x*12))) + a*np.abs(np.sin(15*x)) + b
 
 def errorCuadraticoMedio(valsY, valsEstimacion):
   error = [valsY[i] - valsEstimacion[i] for i in range(0, len(valsY))]
@@ -199,7 +199,7 @@ def graficarSemanaCancelaciones(directory, airport, cancelation_code):
 
     for i in range(0, fin):
       semana = (i % 48) / 12
-      valsEstimacion.append(func(i, param[semana] [0], param[semana] [1], param[semana] [2])) #, param[semana] [3], param[semana] [4], param[semana] [5], param[semana] [6], param[semana] [7], param[semana] [8], param[semana][9], param[semana][10])) #, param[semana] [2])) #, param[semana] [3]))
+      valsEstimacion.append(func(i, param[semana] [0], param[semana] [1], param[semana] [2])) #, param[semana] [3])) #, param[semana] [3], param[semana] [4], param[semana] [5], param[semana] [6], param[semana] [7], param[semana] [8], param[semana][9], param[semana][10])) #, param[semana] [2])) #, param[semana] [3]))
 
     # PLOTE SIN DIVIDIRLO
     #param = calcularCML(x[0 : inicio], cancelaciones_filtro[0 : inicio], func)
